@@ -38,8 +38,6 @@ The project was developed and tested on an Ubuntu 24.04 LTS virtual machine.
 │   ├── ssh.yml
 │   ├── users.yml
 │   └── verification.yml
-├── handlers/
-│   └── main.yml
 ├── inventory
 ├── site.yml
 ├── baseline-report.txt
