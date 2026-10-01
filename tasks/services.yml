@@ -1,0 +1,9 @@
+---
+- name: Disable unnecessary services
+  ansible.builtin.service:
+    name: "{{ item }}"
+    enabled: false
+    state: stopped
+  loop: "{{ disable_unnecessary_services }}"
+  failed_when: false
+

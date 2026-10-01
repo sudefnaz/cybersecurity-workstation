@@ -1,0 +1,52 @@
+---
+- name: Security Baseline
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Configure package management
+      ansible.builtin.include_tasks: tasks/packages.yml
+
+    - name: Configure user and password security
+      ansible.builtin.include_tasks: tasks/users.yml
+
+    - name: Configure SSH hardening
+      ansible.builtin.include_tasks: tasks/ssh.yml
+
+    - name: Configure firewall
+      ansible.builtin.include_tasks: tasks/firewall.yml
+
+    - name: Configure network hardening
+      ansible.builtin.include_tasks: tasks/network.yml
+
+    - name: Configure logging and auditing
+      ansible.builtin.include_tasks: tasks/logging.yml
+
+    - name: Configure unnecessary services
+      ansible.builtin.include_tasks: tasks/services.yml
+
+    - name: Configure additional hardening
+      ansible.builtin.include_tasks: tasks/additional_hardening.yml
+    
+    - name: Configure filesystem security
+      ansible.builtin.include_tasks: tasks/filesystem.yml
+
+    - name: Run security verification
+      ansible.builtin.include_tasks: tasks/verification.yml
+
+  handlers:
+
+    - name: Validate and reload SSH
+      ansible.builtin.command: sshd -t
+      changed_when: false
+      notify: Reload SSH service
+
+    - name: Reload SSH service
+      ansible.builtin.service:
+        name: ssh
+        state: reloaded
+
+    - name: Reload audit rules
+      ansible.builtin.command: augenrules --load
+      changed_when: false

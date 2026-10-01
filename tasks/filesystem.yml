@@ -1,0 +1,55 @@
+---
+- name: Set permissions on /etc/passwd
+  ansible.builtin.file:
+    path: /etc/passwd
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set permissions on /etc/group
+  ansible.builtin.file:
+    path: /etc/group
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set permissions on /etc/shadow
+  ansible.builtin.file:
+    path: /etc/shadow
+    owner: root
+    group: shadow
+    mode: '0640'
+
+- name: Set permissions on /etc/gshadow
+  ansible.builtin.file:
+    path: /etc/gshadow
+    owner: root
+    group: shadow
+    mode: '0640'
+
+- name: Set permissions on /etc/shells
+  ansible.builtin.file:
+    path: /etc/shells
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Check for world-writable files
+  ansible.builtin.command: find /etc /usr /var -xdev -type f -perm -0002
+  register: world_writable_files
+  changed_when: false
+  failed_when: false
+
+- name: Report world-writable files
+  ansible.builtin.debug:
+    msg: "World-writable files: {{ world_writable_files.stdout_lines }}"
+
+- name: Check for unowned files
+  ansible.builtin.command: find /etc /usr /var -xdev \( -nouser -o -nogroup \)
+  register: unowned_files
+  changed_when: false
+  failed_when: false
+
+- name: Report unowned files
+  ansible.builtin.debug:
+    msg: "Unowned or ungrouped files: {{ unowned_files.stdout_lines }}"

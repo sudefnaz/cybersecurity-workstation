@@ -1,0 +1,36 @@
+---
+- name: Ensure SSH service is installed and enabled
+  ansible.builtin.service:
+    name: ssh
+    enabled: true
+    state: started
+  when: ssh_hardening_enabled
+
+- name: Configure SSH security settings
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config
+    marker: "# {mark} ANSIBLE CYBERSECURITY HARDENING"
+    insertbefore: BOF
+    block: |
+      PermitRootLogin {{ ssh_permit_root_login }}
+      PasswordAuthentication {{ ssh_password_authentication }}
+      PermitEmptyPasswords {{ ssh_permit_empty_passwords }}
+      PermitUserEnvironment {{ ssh_permit_user_environment }}
+      UsePAM {{ ssh_use_pam }}
+      MaxAuthTries {{ ssh_max_auth_tries }}
+      LoginGraceTime {{ ssh_login_grace_time }}
+      X11Forwarding {{ ssh_x11_forwarding }}
+      ClientAliveInterval {{ ssh_client_alive_interval }}
+      ClientAliveCountMax {{ ssh_client_alive_count_max }}
+    backup: true
+  when: ssh_hardening_enabled
+  notify: Validate and reload SSH
+
+- name: Ensure SSH port is configured
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?Port '
+    line: 'Port {{ ssh_port }}'
+    state: present
+  when: ssh_hardening_enabled
+  notify: Validate and reload SSH

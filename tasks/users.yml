@@ -1,0 +1,62 @@
+---
+- name: Lock the root account
+  ansible.builtin.user:
+    name: root
+    password_lock: true
+
+- name: Set password expiration defaults
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MAX_DAYS'
+    line: 'PASS_MAX_DAYS   {{ password_max_days }}'
+    state: present
+
+- name: Set minimum password age
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_MIN_DAYS'
+    line: 'PASS_MIN_DAYS   {{ password_min_days }}'
+    state: present
+
+- name: Set password warning age
+  ansible.builtin.lineinfile:
+    path: /etc/login.defs
+    regexp: '^PASS_WARN_AGE'
+    line: 'PASS_WARN_AGE   {{ password_warn_age }}'
+    state: present
+
+- name: Ensure password quality configuration exists
+  ansible.builtin.lineinfile:
+    path: /etc/security/pwquality.conf
+    regexp: '^minlen='
+    line: 'minlen=12'
+    state: present
+    create: true
+
+- name: Set passwd file permissions
+  ansible.builtin.file:
+    path: /etc/passwd
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set shadow file permissions
+  ansible.builtin.file:
+    path: /etc/shadow
+    owner: root
+    group: shadow
+    mode: '0640'
+
+- name: Set group file permissions
+  ansible.builtin.file:
+    path: /etc/group
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Set gshadow file permissions
+  ansible.builtin.file:
+    path: /etc/gshadow
+    owner: root
+    group: shadow
+    mode: '0640'

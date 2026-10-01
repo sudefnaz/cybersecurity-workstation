@@ -1,0 +1,545 @@
+
+PLAY [Security Baseline] *******************************************************
+
+TASK [Gathering Facts] *********************************************************
+ok: [localhost]
+
+TASK [Get system information] **************************************************
+ok: [localhost]
+
+TASK [Show operating system] ***************************************************
+ok: [localhost] => {
+    "msg": "OS: Ubuntu 24.04"
+}
+
+TASK [Show memory] *************************************************************
+ok: [localhost] => {
+    "msg": "RAM: 3911 MB"
+}
+
+TASK [Show processor] **********************************************************
+ok: [localhost] => {
+    "msg": "CPU: GenuineIntel"
+}
+
+TASK [Check open ports] ********************************************************
+ok: [localhost]
+
+TASK [Show open ports] *********************************************************
+ok: [localhost] => {
+    "open_ports.stdout_lines": [
+        "Netid State  Recv-Q Send-Q Local Address:Port  Peer Address:PortProcess                                   ",
+        "udp   UNCONN 0      0            0.0.0.0:5353       0.0.0.0:*    users:((\"avahi-daemon\",pid=734,fd=12))   ",
+        "udp   UNCONN 0      0         127.0.0.54:53         0.0.0.0:*    users:((\"systemd-resolve\",pid=381,fd=16))",
+        "udp   UNCONN 0      0      127.0.0.53%lo:53         0.0.0.0:*    users:((\"systemd-resolve\",pid=381,fd=14))",
+        "udp   UNCONN 0      0            0.0.0.0:55411      0.0.0.0:*    users:((\"avahi-daemon\",pid=734,fd=14))   ",
+        "udp   UNCONN 0      0               [::]:35315         [::]:*    users:((\"avahi-daemon\",pid=734,fd=15))   ",
+        "udp   UNCONN 0      0               [::]:5353          [::]:*    users:((\"avahi-daemon\",pid=734,fd=13))   ",
+        "tcp   LISTEN 0      4096       127.0.0.1:631        0.0.0.0:*    users:((\"cupsd\",pid=1190,fd=7))          ",
+        "tcp   LISTEN 0      4096      127.0.0.54:53         0.0.0.0:*    users:((\"systemd-resolve\",pid=381,fd=17))",
+        "tcp   LISTEN 0      4096   127.0.0.53%lo:53         0.0.0.0:*    users:((\"systemd-resolve\",pid=381,fd=15))",
+        "tcp   LISTEN 0      4096           [::1]:631           [::]:*    users:((\"cupsd\",pid=1190,fd=6))          "
+    ]
+}
+
+TASK [Check firewall status] ***************************************************
+ok: [localhost]
+
+TASK [Show firewall status] ****************************************************
+ok: [localhost] => {
+    "firewall_status.stdout_lines": [
+        "Durum: etkin",
+        "Günlük tutuluyor: on (low)",
+        "Öntanımlı: deny (gelen), allow (giden), disabled (yönlendirilmiş)",
+        "Yeni profiller: skip"
+    ]
+}
+
+TASK [Check SSH service] *******************************************************
+ok: [localhost]
+
+TASK [Show SSH status] *********************************************************
+ok: [localhost] => {
+    "msg": "SSH status: inactive"
+}
+
+TASK [Check available package updates] *****************************************
+ok: [localhost]
+
+TASK [Show package updates] ****************************************************
+ok: [localhost] => {
+    "package_updates.stdout_lines": [
+        "Listeleme...",
+        "dmidecode/noble-updates 3.5-3ubuntu0.2 amd64 [şundan yükseltilebilir: 3.5-3ubuntu0.1]",
+        "libpciaccess0/noble-updates 0.17-3ubuntu0.24.04.3 amd64 [şundan yükseltilebilir: 0.17-3ubuntu0.24.04.2]",
+        "xserver-xorg-core/noble-updates 2:21.1.12-1ubuntu1.8 amd64 [şundan yükseltilebilir: 2:21.1.12-1ubuntu1.6]"
+    ]
+}
+
+TASK [Check disk usage] ********************************************************
+ok: [localhost]
+
+TASK [Show disk usage] *********************************************************
+ok: [localhost] => {
+    "disk_usage.stdout_lines": [
+        "Dosya sistemi  Boyut  Dolu   Boş Kullanım% Bağlanılan yer",
+        "/dev/sda2        25G   12G   12G       51% /"
+    ]
+}
+
+TASK [Check memory usage] ******************************************************
+ok: [localhost]
+
+TASK [Show memory usage] *******************************************************
+ok: [localhost] => {
+    "memory_usage.stdout_lines": [
+        "               total        used        free      shared  buff/cache   available",
+        "Bellek:        3,8Gi       1,9Gi       187Mi        42Mi       1,9Gi       1,9Gi",
+        "Takas:         3,8Gi       293Mi       3,5Gi"
+    ]
+}
+
+TASK [Check system uptime] *****************************************************
+ok: [localhost]
+
+TASK [Show system uptime] ******************************************************
+ok: [localhost] => {
+    "msg": " 15:49:25 up  1:43,  1 user,  load average: 0,86, 2,05, 4,45"
+}
+
+TASK [Evaluate firewall security] **********************************************
+ok: [localhost] => {
+    "msg": " FIREWALL: PASS - UFW is active "
+}
+
+TASK [Evaluate SSH service] ****************************************************
+ok: [localhost] => {
+    "msg": " SSH SERVICE: PASS - SSH service is not active "
+}
+
+TASK [Evaluate package updates] ************************************************
+ok: [localhost] => {
+    "msg": " PACKAGE UPDATES: WARNING - Available updates detected "
+}
+
+TASK [Evaluate disk usage] *****************************************************
+ok: [localhost]
+
+TASK [Show disk security status] ***********************************************
+ok: [localhost] => {
+    "msg": " DISK: PASS - Disk usage is 51%  "
+}
+
+TASK [Check normal users] ******************************************************
+ok: [localhost]
+
+TASK [Show normal users] *******************************************************
+ok: [localhost] => {
+    "normal_users.stdout_lines": [
+        "sude"
+    ]
+}
+
+TASK [Evaluate normal users] ***************************************************
+ok: [localhost] => {
+    "msg": " USERS: PASS - Only 1 normal user detected "
+}
+
+TASK [Check sudo group members] ************************************************
+ok: [localhost]
+
+TASK [Show sudo group] *********************************************************
+ok: [localhost] => {
+    "sudo_group.stdout": "sudo:x:27:sude"
+}
+
+TASK [Check sudo privileges] ***************************************************
+ok: [localhost]
+
+TASK [Show sudo privileges] ****************************************************
+ok: [localhost] => {
+    "sudo_privileges.stdout_lines": [
+        "Matching Defaults entries for sude on sude-VirtualBox:",
+        "    env_reset, mail_badpass, secure_path=/usr/local/sbin\\:/usr/local/bin\\:/usr/sbin\\:/usr/bin\\:/sbin\\:/bin\\:/snap/bin, use_pty",
+        "",
+        "User sude may run the following commands on sude-VirtualBox:",
+        "    (ALL : ALL) ALL"
+    ]
+}
+
+TASK [Evaluate sudo privileges] ************************************************
+ok: [localhost] => {
+    "msg": " SUDO: INFO - User has full sudo privileges "
+}
+
+TASK [Check running services] **************************************************
+ok: [localhost]
+
+TASK [Show running services] ***************************************************
+ok: [localhost] => {
+    "running_services.stdout_lines": [
+        "  accounts-daemon.service        loaded active running Accounts Service",
+        "  avahi-daemon.service           loaded active running Avahi mDNS/DNS-SD Stack",
+        "  colord.service                 loaded active running Manage, Install and Generate Color Profiles",
+        "  cron.service                   loaded active running Regular background program processing daemon",
+        "  cups-browsed.service           loaded active running Make remote CUPS printers available locally",
+        "  cups.service                   loaded active running CUPS Scheduler",
+        "  dbus.service                   loaded active running D-Bus System Message Bus",
+        "  fwupd.service                  loaded active running Firmware update daemon",
+        "  gdm.service                    loaded active running GNOME Display Manager",
+        "  gnome-remote-desktop.service   loaded active running GNOME Remote Desktop",
+        "  kerneloops.service             loaded active running Tool to automatically collect and submit kernel crash signatures",
+        "  ModemManager.service           loaded active running Modem Manager",
+        "  NetworkManager.service         loaded active running Network Manager",
+        "  polkit.service                 loaded active running Authorization Manager",
+        "  power-profiles-daemon.service  loaded active running Power Profiles daemon",
+        "  rsyslog.service                loaded active running System Logging Service",
+        "  rtkit-daemon.service           loaded active running RealtimeKit Scheduling Policy Service",
+        "  snapd.service                  loaded active running Snap Daemon",
+        "  switcheroo-control.service     loaded active running Switcheroo Control Proxy service",
+        "  systemd-journald.service       loaded active running Journal Service",
+        "  systemd-logind.service         loaded active running User Login Management",
+        "  systemd-oomd.service           loaded active running Userspace Out-Of-Memory (OOM) Killer",
+        "  systemd-resolved.service       loaded active running Network Name Resolution",
+        "  systemd-udevd.service          loaded active running Rule-based Manager for Device Events and Files",
+        "  udisks2.service                loaded active running Disk Manager",
+        "  unattended-upgrades.service    loaded active running Unattended Upgrades Shutdown",
+        "  upower.service                 loaded active running Daemon for power management",
+        "  user@1000.service              loaded active running User Manager for UID 1000",
+        "  virtualbox-guest-utils.service loaded active running Virtualbox guest utils",
+        "  wpa_supplicant.service         loaded active running WPA supplicant"
+    ]
+}
+
+TASK [Check important services] ************************************************
+ok: [localhost] => (item=avahi-daemon)
+ok: [localhost] => (item=cups)
+ok: [localhost] => (item=gnome-remote-desktop)
+ok: [localhost] => (item=ssh)
+
+TASK [Show important service status] *******************************************
+ok: [localhost] => (item={'name': 'avahi-daemon', 'changed': False, 'status': {'Type': 'dbus', 'ExitType': 'main', 'Restart': 'no', 'RestartMode': 'normal', 'NotifyAccess': 'main', 'RestartUSec': '100ms', 'RestartSteps': '0', 'RestartMaxDelayUSec': 'infinity', 'RestartUSecNext': '100ms', 'TimeoutStartUSec': '1min 30s', 'TimeoutStopUSec': '1min 30s', 'TimeoutAbortUSec': '1min 30s', 'TimeoutStartFailureMode': 'terminate', 'TimeoutStopFailureMode': 'terminate', 'RuntimeMaxUSec': 'infinity', 'RuntimeRandomizedExtraUSec': '0', 'WatchdogUSec': '0', 'WatchdogTimestampMonotonic': '0', 'RootDirectoryStartOnly': 'no', 'RemainAfterExit': 'no', 'GuessMainPID': 'yes', 'MainPID': '734', 'ControlPID': '0', 'BusName': 'org.freedesktop.Avahi', 'FileDescriptorStoreMax': '0', 'NFileDescriptorStore': '0', 'FileDescriptorStorePreserve': 'restart', 'StatusText': 'avahi-daemon 0.8 starting up.', 'StatusErrno': '0', 'Result': 'success', 'ReloadResult': 'success', 'CleanResult': 'success', 'UID': '[not set]', 'GID': '[not set]', 'NRestarts': '0', 'OOMPolicy': 'stop', 'ReloadSignal': '1', 'ExecMainStartTimestamp': 'Tue 2026-09-29 14:06:05 +03', 'ExecMainStartTimestampMonotonic': '8948358', 'ExecMainExitTimestampMonotonic': '0', 'ExecMainPID': '734', 'ExecMainCode': '0', 'ExecMainStatus': '0', 'ExecStart': '{ path=/usr/sbin/avahi-daemon ; argv[]=/usr/sbin/avahi-daemon -s ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'ExecStartEx': '{ path=/usr/sbin/avahi-daemon ; argv[]=/usr/sbin/avahi-daemon -s ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'ExecReload': '{ path=/usr/sbin/avahi-daemon ; argv[]=/usr/sbin/avahi-daemon -r ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'ExecReloadEx': '{ path=/usr/sbin/avahi-daemon ; argv[]=/usr/sbin/avahi-daemon -r ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'Slice': 'system.slice', 'ControlGroup': '/system.slice/avahi-daemon.service', 'ControlGroupId': '2382', 'MemoryCurrent': '2777088', 'MemoryPeak': '3084288', 'MemorySwapCurrent': '0', 'MemorySwapPeak': '0', 'MemoryZSwapCurrent': '0', 'MemoryAvailable': '2040762368', 'CPUUsageNSec': '180118000', 'TasksCurrent': '2', 'IPIngressBytes': '[no data]', 'IPIngressPackets': '[no data]', 'IPEgressBytes': '[no data]', 'IPEgressPackets': '[no data]', 'IOReadBytes': '[not set]', 'IOReadOperations': '[not set]', 'IOWriteBytes': '[not set]', 'IOWriteOperations': '[not set]', 'Delegate': 'no', 'CPUAccounting': 'yes', 'CPUWeight': '[not set]', 'StartupCPUWeight': '[not set]', 'CPUShares': '[not set]', 'StartupCPUShares': '[not set]', 'CPUQuotaPerSecUSec': 'infinity', 'CPUQuotaPeriodUSec': 'infinity', 'IOAccounting': 'no', 'IOWeight': '[not set]', 'StartupIOWeight': '[not set]', 'BlockIOAccounting': 'no', 'BlockIOWeight': '[not set]', 'StartupBlockIOWeight': '[not set]', 'MemoryAccounting': 'yes', 'DefaultMemoryLow': '0', 'DefaultStartupMemoryLow': '0', 'DefaultMemoryMin': '0', 'MemoryMin': '0', 'MemoryLow': '0', 'StartupMemoryLow': '0', 'MemoryHigh': 'infinity', 'StartupMemoryHigh': 'infinity', 'MemoryMax': 'infinity', 'StartupMemoryMax': 'infinity', 'MemorySwapMax': 'infinity', 'StartupMemorySwapMax': 'infinity', 'MemoryZSwapMax': 'infinity', 'StartupMemoryZSwapMax': 'infinity', 'MemoryLimit': 'infinity', 'DevicePolicy': 'auto', 'TasksAccounting': 'yes', 'TasksMax': '3453', 'IPAccounting': 'no', 'ManagedOOMSwap': 'auto', 'ManagedOOMMemoryPressure': 'auto', 'ManagedOOMMemoryPressureLimit': '0', 'ManagedOOMPreference': 'none', 'MemoryPressureWatch': 'auto', 'MemoryPressureThresholdUSec': '200ms', 'CoredumpReceive': 'no', 'UMask': '0022', 'LimitCPU': 'infinity', 'LimitCPUSoft': 'infinity', 'LimitFSIZE': 'infinity', 'LimitFSIZESoft': 'infinity', 'LimitDATA': 'infinity', 'LimitDATASoft': 'infinity', 'LimitSTACK': 'infinity', 'LimitSTACKSoft': '8388608', 'LimitCORE': 'infinity', 'LimitCORESoft': '0', 'LimitRSS': 'infinity', 'LimitRSSSoft': 'infinity', 'LimitNOFILE': '524288', 'LimitNOFILESoft': '1024', 'LimitAS': 'infinity', 'LimitASSoft': 'infinity', 'LimitNPROC': '11511', 'LimitNPROCSoft': '11511', 'LimitMEMLOCK': '8388608', 'LimitMEMLOCKSoft': '8388608', 'LimitLOCKS': 'infinity', 'LimitLOCKSSoft': 'infinity', 'LimitSIGPENDING': '11511', 'LimitSIGPENDINGSoft': '11511', 'LimitMSGQUEUE': '819200', 'LimitMSGQUEUESoft': '819200', 'LimitNICE': '0', 'LimitNICESoft': '0', 'LimitRTPRIO': '0', 'LimitRTPRIOSoft': '0', 'LimitRTTIME': 'infinity', 'LimitRTTIMESoft': 'infinity', 'RootEphemeral': 'no', 'OOMScoreAdjust': '0', 'CoredumpFilter': '0x33', 'Nice': '0', 'IOSchedulingClass': '2', 'IOSchedulingPriority': '4', 'CPUSchedulingPolicy': '0', 'CPUSchedulingPriority': '0', 'CPUAffinityFromNUMA': 'no', 'NUMAPolicy': 'n/a', 'TimerSlackNSec': '50000', 'CPUSchedulingResetOnFork': 'no', 'NonBlocking': 'no', 'StandardInput': 'null', 'StandardOutput': 'journal', 'StandardError': 'inherit', 'TTYReset': 'no', 'TTYVHangup': 'no', 'TTYVTDisallocate': 'no', 'SyslogPriority': '30', 'SyslogLevelPrefix': 'yes', 'SyslogLevel': '6', 'SyslogFacility': '3', 'LogLevelMax': '-1', 'LogRateLimitIntervalUSec': '0', 'LogRateLimitBurst': '0', 'SecureBits': '0', 'CapabilityBoundingSet': 'cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore', 'DynamicUser': 'no', 'SetLoginEnvironment': 'no', 'RemoveIPC': 'no', 'PrivateTmp': 'no', 'PrivateDevices': 'no', 'ProtectClock': 'no', 'ProtectKernelTunables': 'no', 'ProtectKernelModules': 'no', 'ProtectKernelLogs': 'no', 'ProtectControlGroups': 'no', 'PrivateNetwork': 'no', 'PrivateUsers': 'no', 'PrivateMounts': 'no', 'PrivateIPC': 'no', 'ProtectHome': 'no', 'ProtectSystem': 'no', 'SameProcessGroup': 'no', 'UtmpMode': 'init', 'IgnoreSIGPIPE': 'yes', 'NoNewPrivileges': 'no', 'SystemCallErrorNumber': '2147483646', 'LockPersonality': 'no', 'RuntimeDirectoryPreserve': 'no', 'RuntimeDirectoryMode': '0755', 'StateDirectoryMode': '0755', 'CacheDirectoryMode': '0755', 'LogsDirectoryMode': '0755', 'ConfigurationDirectoryMode': '0755', 'TimeoutCleanUSec': 'infinity', 'MemoryDenyWriteExecute': 'no', 'RestrictRealtime': 'no', 'RestrictSUIDSGID': 'no', 'RestrictNamespaces': 'no', 'MountAPIVFS': 'no', 'KeyringMode': 'private', 'ProtectProc': 'default', 'ProcSubset': 'all', 'ProtectHostname': 'no', 'MemoryKSM': 'no', 'RootImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'MountImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'ExtensionImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'KillMode': 'control-group', 'KillSignal': '15', 'RestartKillSignal': '15', 'FinalKillSignal': '9', 'SendSIGKILL': 'yes', 'SendSIGHUP': 'no', 'WatchdogSignal': '6', 'Id': 'avahi-daemon.service', 'Names': 'avahi-daemon.service dbus-org.freedesktop.Avahi.service', 'Requires': 'avahi-daemon.socket sysinit.target system.slice dbus.socket', 'WantedBy': 'cups-browsed.service multi-user.target', 'Conflicts': 'shutdown.target', 'Before': 'shutdown.target cups-browsed.service multi-user.target', 'After': 'avahi-daemon.socket sysinit.target system.slice systemd-journald.socket dbus.socket basic.target', 'TriggeredBy': 'avahi-daemon.socket', 'Description': 'Avahi mDNS/DNS-SD Stack', 'LoadState': 'loaded', 'ActiveState': 'active', 'FreezerState': 'running', 'SubState': 'running', 'FragmentPath': '/usr/lib/systemd/system/avahi-daemon.service', 'UnitFileState': 'enabled', 'UnitFilePreset': 'enabled', 'StateChangeTimestamp': 'Tue 2026-09-29 14:06:09 +03', 'StateChangeTimestampMonotonic': '12481179', 'InactiveExitTimestamp': 'Tue 2026-09-29 14:06:05 +03', 'InactiveExitTimestampMonotonic': '8948406', 'ActiveEnterTimestamp': 'Tue 2026-09-29 14:06:07 +03', 'ActiveEnterTimestampMonotonic': '10572425', 'ActiveExitTimestampMonotonic': '0', 'InactiveEnterTimestampMonotonic': '0', 'CanStart': 'yes', 'CanStop': 'yes', 'CanReload': 'yes', 'CanIsolate': 'no', 'CanFreeze': 'yes', 'StopWhenUnneeded': 'no', 'RefuseManualStart': 'no', 'RefuseManualStop': 'no', 'AllowIsolate': 'no', 'DefaultDependencies': 'yes', 'SurviveFinalKillSignal': 'no', 'OnSuccessJobMode': 'fail', 'OnFailureJobMode': 'replace', 'IgnoreOnIsolate': 'no', 'NeedDaemonReload': 'no', 'JobTimeoutUSec': 'infinity', 'JobRunningTimeoutUSec': 'infinity', 'JobTimeoutAction': 'none', 'ConditionResult': 'yes', 'AssertResult': 'yes', 'ConditionTimestamp': 'Tue 2026-09-29 14:06:05 +03', 'ConditionTimestampMonotonic': '8943754', 'AssertTimestamp': 'Tue 2026-09-29 14:06:05 +03', 'AssertTimestampMonotonic': '8943756', 'Transient': 'no', 'Perpetual': 'no', 'StartLimitIntervalUSec': '10s', 'StartLimitBurst': '5', 'StartLimitAction': 'none', 'FailureAction': 'none', 'SuccessAction': 'none', 'InvocationID': '2d93cacbc7bc4b869d3bc823f27916f4', 'CollectMode': 'inactive'}, 'invocation': {'module_args': {'name': 'avahi-daemon', 'daemon_reload': False, 'daemon_reexec': False, 'scope': 'system', 'no_block': False, 'state': None, 'enabled': None, 'force': None, 'masked': None}}, 'failed': False, 'failed_when_result': False, 'item': 'avahi-daemon', 'ansible_loop_var': 'item'}) => {
+    "msg": "avahi-daemon: active"
+}
+ok: [localhost] => (item={'name': 'cups', 'changed': False, 'status': {'Type': 'notify', 'ExitType': 'main', 'Restart': 'on-failure', 'RestartMode': 'normal', 'NotifyAccess': 'main', 'RestartUSec': '100ms', 'RestartSteps': '0', 'RestartMaxDelayUSec': 'infinity', 'RestartUSecNext': '100ms', 'TimeoutStartUSec': '1min 30s', 'TimeoutStopUSec': '1min 30s', 'TimeoutAbortUSec': '1min 30s', 'TimeoutStartFailureMode': 'terminate', 'TimeoutStopFailureMode': 'terminate', 'RuntimeMaxUSec': 'infinity', 'RuntimeRandomizedExtraUSec': '0', 'WatchdogUSec': '0', 'WatchdogTimestampMonotonic': '0', 'RootDirectoryStartOnly': 'no', 'RemainAfterExit': 'no', 'GuessMainPID': 'yes', 'MainPID': '1190', 'ControlPID': '0', 'FileDescriptorStoreMax': '0', 'NFileDescriptorStore': '0', 'FileDescriptorStorePreserve': 'restart', 'StatusText': 'Scheduler is running...', 'StatusErrno': '0', 'Result': 'success', 'ReloadResult': 'success', 'CleanResult': 'success', 'UID': '[not set]', 'GID': '[not set]', 'NRestarts': '0', 'OOMPolicy': 'stop', 'ReloadSignal': '1', 'ExecMainStartTimestamp': 'Tue 2026-09-29 14:06:09 +03', 'ExecMainStartTimestampMonotonic': '12522242', 'ExecMainExitTimestampMonotonic': '0', 'ExecMainPID': '1190', 'ExecMainCode': '0', 'ExecMainStatus': '0', 'ExecStart': '{ path=/usr/sbin/cupsd ; argv[]=/usr/sbin/cupsd -l ; ignore_errors=no ; start_time=[Tue 2026-09-29 14:06:09 +03] ; stop_time=[n/a] ; pid=1190 ; code=(null) ; status=0/0 }', 'ExecStartEx': '{ path=/usr/sbin/cupsd ; argv[]=/usr/sbin/cupsd -l ; flags= ; start_time=[Tue 2026-09-29 14:06:09 +03] ; stop_time=[n/a] ; pid=1190 ; code=(null) ; status=0/0 }', 'Slice': 'system.slice', 'ControlGroup': '/system.slice/cups.service', 'ControlGroupId': '3658', 'MemoryCurrent': '6180864', 'MemoryPeak': '7454720', 'MemorySwapCurrent': '0', 'MemorySwapPeak': '0', 'MemoryZSwapCurrent': '0', 'MemoryAvailable': '2079068160', 'CPUUsageNSec': '34766000', 'TasksCurrent': '1', 'IPIngressBytes': '[no data]', 'IPIngressPackets': '[no data]', 'IPEgressBytes': '[no data]', 'IPEgressPackets': '[no data]', 'IOReadBytes': '[not set]', 'IOReadOperations': '[not set]', 'IOWriteBytes': '[not set]', 'IOWriteOperations': '[not set]', 'Delegate': 'no', 'CPUAccounting': 'yes', 'CPUWeight': '[not set]', 'StartupCPUWeight': '[not set]', 'CPUShares': '[not set]', 'StartupCPUShares': '[not set]', 'CPUQuotaPerSecUSec': 'infinity', 'CPUQuotaPeriodUSec': 'infinity', 'IOAccounting': 'no', 'IOWeight': '[not set]', 'StartupIOWeight': '[not set]', 'BlockIOAccounting': 'no', 'BlockIOWeight': '[not set]', 'StartupBlockIOWeight': '[not set]', 'MemoryAccounting': 'yes', 'DefaultMemoryLow': '0', 'DefaultStartupMemoryLow': '0', 'DefaultMemoryMin': '0', 'MemoryMin': '0', 'MemoryLow': '0', 'StartupMemoryLow': '0', 'MemoryHigh': 'infinity', 'StartupMemoryHigh': 'infinity', 'MemoryMax': 'infinity', 'StartupMemoryMax': 'infinity', 'MemorySwapMax': 'infinity', 'StartupMemorySwapMax': 'infinity', 'MemoryZSwapMax': 'infinity', 'StartupMemoryZSwapMax': 'infinity', 'MemoryLimit': 'infinity', 'DevicePolicy': 'auto', 'TasksAccounting': 'yes', 'TasksMax': '3453', 'IPAccounting': 'no', 'ManagedOOMSwap': 'auto', 'ManagedOOMMemoryPressure': 'auto', 'ManagedOOMMemoryPressureLimit': '0', 'ManagedOOMPreference': 'none', 'MemoryPressureWatch': 'auto', 'MemoryPressureThresholdUSec': '200ms', 'CoredumpReceive': 'no', 'UMask': '0022', 'LimitCPU': 'infinity', 'LimitCPUSoft': 'infinity', 'LimitFSIZE': 'infinity', 'LimitFSIZESoft': 'infinity', 'LimitDATA': 'infinity', 'LimitDATASoft': 'infinity', 'LimitSTACK': 'infinity', 'LimitSTACKSoft': '8388608', 'LimitCORE': 'infinity', 'LimitCORESoft': '0', 'LimitRSS': 'infinity', 'LimitRSSSoft': 'infinity', 'LimitNOFILE': '524288', 'LimitNOFILESoft': '1024', 'LimitAS': 'infinity', 'LimitASSoft': 'infinity', 'LimitNPROC': '11511', 'LimitNPROCSoft': '11511', 'LimitMEMLOCK': '8388608', 'LimitMEMLOCKSoft': '8388608', 'LimitLOCKS': 'infinity', 'LimitLOCKSSoft': 'infinity', 'LimitSIGPENDING': '11511', 'LimitSIGPENDINGSoft': '11511', 'LimitMSGQUEUE': '819200', 'LimitMSGQUEUESoft': '819200', 'LimitNICE': '0', 'LimitNICESoft': '0', 'LimitRTPRIO': '0', 'LimitRTPRIOSoft': '0', 'LimitRTTIME': 'infinity', 'LimitRTTIMESoft': 'infinity', 'RootEphemeral': 'no', 'OOMScoreAdjust': '0', 'CoredumpFilter': '0x33', 'Nice': '0', 'IOSchedulingClass': '2', 'IOSchedulingPriority': '4', 'CPUSchedulingPolicy': '0', 'CPUSchedulingPriority': '0', 'CPUAffinityFromNUMA': 'no', 'NUMAPolicy': 'n/a', 'TimerSlackNSec': '50000', 'CPUSchedulingResetOnFork': 'no', 'NonBlocking': 'no', 'StandardInput': 'null', 'StandardOutput': 'journal', 'StandardError': 'inherit', 'TTYReset': 'no', 'TTYVHangup': 'no', 'TTYVTDisallocate': 'no', 'SyslogPriority': '30', 'SyslogLevelPrefix': 'yes', 'SyslogLevel': '6', 'SyslogFacility': '3', 'LogLevelMax': '-1', 'LogRateLimitIntervalUSec': '0', 'LogRateLimitBurst': '0', 'SecureBits': '0', 'CapabilityBoundingSet': 'cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore', 'DynamicUser': 'no', 'SetLoginEnvironment': 'no', 'RemoveIPC': 'no', 'PrivateTmp': 'no', 'PrivateDevices': 'no', 'ProtectClock': 'no', 'ProtectKernelTunables': 'no', 'ProtectKernelModules': 'no', 'ProtectKernelLogs': 'no', 'ProtectControlGroups': 'no', 'PrivateNetwork': 'no', 'PrivateUsers': 'no', 'PrivateMounts': 'no', 'PrivateIPC': 'no', 'ProtectHome': 'no', 'ProtectSystem': 'no', 'SameProcessGroup': 'no', 'UtmpMode': 'init', 'IgnoreSIGPIPE': 'yes', 'NoNewPrivileges': 'no', 'SystemCallErrorNumber': '2147483646', 'LockPersonality': 'no', 'RuntimeDirectoryPreserve': 'no', 'RuntimeDirectoryMode': '0755', 'StateDirectoryMode': '0755', 'CacheDirectoryMode': '0755', 'LogsDirectoryMode': '0755', 'ConfigurationDirectoryMode': '0755', 'TimeoutCleanUSec': 'infinity', 'MemoryDenyWriteExecute': 'no', 'RestrictRealtime': 'no', 'RestrictSUIDSGID': 'no', 'RestrictNamespaces': 'no', 'MountAPIVFS': 'no', 'KeyringMode': 'private', 'ProtectProc': 'default', 'ProcSubset': 'all', 'ProtectHostname': 'no', 'MemoryKSM': 'no', 'RootImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'MountImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'ExtensionImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'KillMode': 'control-group', 'KillSignal': '15', 'RestartKillSignal': '15', 'FinalKillSignal': '9', 'SendSIGKILL': 'yes', 'SendSIGHUP': 'no', 'WatchdogSignal': '6', 'Id': 'cups.service', 'Names': 'cups.service', 'Requires': 'cups.socket system.slice sysinit.target', 'RequiredBy': 'cups-browsed.service', 'WantedBy': 'multi-user.target', 'ConsistsOf': 'cups.path cups.socket', 'Conflicts': 'shutdown.target', 'Before': 'shutdown.target cups-browsed.service multi-user.target', 'After': 'nss-user-lookup.target cups.path cups.socket basic.target network.target systemd-journald.socket system.slice nslcd.service sysinit.target', 'TriggeredBy': 'cups.path cups.socket', 'Documentation': '"man:cupsd(8)"', 'Description': 'CUPS Scheduler', 'LoadState': 'loaded', 'ActiveState': 'active', 'FreezerState': 'running', 'SubState': 'running', 'FragmentPath': '/usr/lib/systemd/system/cups.service', 'UnitFileState': 'enabled', 'UnitFilePreset': 'enabled', 'StateChangeTimestamp': 'Tue 2026-09-29 14:06:09 +03', 'StateChangeTimestampMonotonic': '12602292', 'InactiveExitTimestamp': 'Tue 2026-09-29 14:06:09 +03', 'InactiveExitTimestampMonotonic': '12522354', 'ActiveEnterTimestamp': 'Tue 2026-09-29 14:06:09 +03', 'ActiveEnterTimestampMonotonic': '12602292', 'ActiveExitTimestampMonotonic': '0', 'InactiveEnterTimestampMonotonic': '0', 'CanStart': 'yes', 'CanStop': 'yes', 'CanReload': 'no', 'CanIsolate': 'no', 'CanFreeze': 'yes', 'StopWhenUnneeded': 'no', 'RefuseManualStart': 'no', 'RefuseManualStop': 'no', 'AllowIsolate': 'no', 'DefaultDependencies': 'yes', 'SurviveFinalKillSignal': 'no', 'OnSuccessJobMode': 'fail', 'OnFailureJobMode': 'replace', 'IgnoreOnIsolate': 'no', 'NeedDaemonReload': 'no', 'JobTimeoutUSec': 'infinity', 'JobRunningTimeoutUSec': 'infinity', 'JobTimeoutAction': 'none', 'ConditionResult': 'yes', 'AssertResult': 'yes', 'ConditionTimestamp': 'Tue 2026-09-29 14:06:09 +03', 'ConditionTimestampMonotonic': '12520477', 'AssertTimestamp': 'Tue 2026-09-29 14:06:09 +03', 'AssertTimestampMonotonic': '12520479', 'Transient': 'no', 'Perpetual': 'no', 'StartLimitIntervalUSec': '10s', 'StartLimitBurst': '5', 'StartLimitAction': 'none', 'FailureAction': 'none', 'SuccessAction': 'none', 'InvocationID': '6198d9f9a62148b9b56fcf5469cb8feb', 'CollectMode': 'inactive'}, 'invocation': {'module_args': {'name': 'cups', 'daemon_reload': False, 'daemon_reexec': False, 'scope': 'system', 'no_block': False, 'state': None, 'enabled': None, 'force': None, 'masked': None}}, 'failed': False, 'failed_when_result': False, 'item': 'cups', 'ansible_loop_var': 'item'}) => {
+    "msg": "cups: active"
+}
+ok: [localhost] => (item={'name': 'gnome-remote-desktop', 'changed': False, 'status': {'Type': 'dbus', 'ExitType': 'main', 'Restart': 'on-failure', 'RestartMode': 'normal', 'NotifyAccess': 'none', 'RestartUSec': '100ms', 'RestartSteps': '0', 'RestartMaxDelayUSec': 'infinity', 'RestartUSecNext': '100ms', 'TimeoutStartUSec': '1min 30s', 'TimeoutStopUSec': '1min 30s', 'TimeoutAbortUSec': '1min 30s', 'TimeoutStartFailureMode': 'terminate', 'TimeoutStopFailureMode': 'terminate', 'RuntimeMaxUSec': 'infinity', 'RuntimeRandomizedExtraUSec': '0', 'WatchdogUSec': '0', 'WatchdogTimestampMonotonic': '0', 'RootDirectoryStartOnly': 'no', 'RemainAfterExit': 'no', 'GuessMainPID': 'yes', 'MainPID': '758', 'ControlPID': '0', 'BusName': 'org.gnome.RemoteDesktop', 'FileDescriptorStoreMax': '0', 'NFileDescriptorStore': '0', 'FileDescriptorStorePreserve': 'restart', 'StatusErrno': '0', 'Result': 'success', 'ReloadResult': 'success', 'CleanResult': 'success', 'UID': '988', 'GID': '988', 'NRestarts': '0', 'OOMPolicy': 'stop', 'ReloadSignal': '1', 'ExecMainStartTimestamp': 'Tue 2026-09-29 14:06:05 +03', 'ExecMainStartTimestampMonotonic': '9199234', 'ExecMainExitTimestampMonotonic': '0', 'ExecMainPID': '758', 'ExecMainCode': '0', 'ExecMainStatus': '0', 'ExecStart': '{ path=/usr/libexec/gnome-remote-desktop-daemon ; argv[]=/usr/libexec/gnome-remote-desktop-daemon --system ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'ExecStartEx': '{ path=/usr/libexec/gnome-remote-desktop-daemon ; argv[]=/usr/libexec/gnome-remote-desktop-daemon --system ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'Slice': 'system.slice', 'ControlGroup': '/system.slice/gnome-remote-desktop.service', 'ControlGroupId': '2602', 'MemoryCurrent': '28737536', 'MemoryPeak': '29138944', 'MemorySwapCurrent': '0', 'MemorySwapPeak': '0', 'MemoryZSwapCurrent': '0', 'MemoryAvailable': '2067517440', 'CPUUsageNSec': '238497000', 'TasksCurrent': '4', 'IPIngressBytes': '[no data]', 'IPIngressPackets': '[no data]', 'IPEgressBytes': '[no data]', 'IPEgressPackets': '[no data]', 'IOReadBytes': '[not set]', 'IOReadOperations': '[not set]', 'IOWriteBytes': '[not set]', 'IOWriteOperations': '[not set]', 'Delegate': 'no', 'CPUAccounting': 'yes', 'CPUWeight': '[not set]', 'StartupCPUWeight': '[not set]', 'CPUShares': '[not set]', 'StartupCPUShares': '[not set]', 'CPUQuotaPerSecUSec': 'infinity', 'CPUQuotaPeriodUSec': 'infinity', 'IOAccounting': 'no', 'IOWeight': '[not set]', 'StartupIOWeight': '[not set]', 'BlockIOAccounting': 'no', 'BlockIOWeight': '[not set]', 'StartupBlockIOWeight': '[not set]', 'MemoryAccounting': 'yes', 'DefaultMemoryLow': '0', 'DefaultStartupMemoryLow': '0', 'DefaultMemoryMin': '0', 'MemoryMin': '0', 'MemoryLow': '0', 'StartupMemoryLow': '0', 'MemoryHigh': 'infinity', 'StartupMemoryHigh': 'infinity', 'MemoryMax': 'infinity', 'StartupMemoryMax': 'infinity', 'MemorySwapMax': 'infinity', 'StartupMemorySwapMax': 'infinity', 'MemoryZSwapMax': 'infinity', 'StartupMemoryZSwapMax': 'infinity', 'MemoryLimit': 'infinity', 'DevicePolicy': 'auto', 'TasksAccounting': 'yes', 'TasksMax': '3453', 'IPAccounting': 'no', 'ManagedOOMSwap': 'auto', 'ManagedOOMMemoryPressure': 'auto', 'ManagedOOMMemoryPressureLimit': '0', 'ManagedOOMPreference': 'none', 'MemoryPressureWatch': 'auto', 'MemoryPressureThresholdUSec': '200ms', 'CoredumpReceive': 'no', 'UMask': '0022', 'LimitCPU': 'infinity', 'LimitCPUSoft': 'infinity', 'LimitFSIZE': 'infinity', 'LimitFSIZESoft': 'infinity', 'LimitDATA': 'infinity', 'LimitDATASoft': 'infinity', 'LimitSTACK': 'infinity', 'LimitSTACKSoft': '8388608', 'LimitCORE': 'infinity', 'LimitCORESoft': '0', 'LimitRSS': 'infinity', 'LimitRSSSoft': 'infinity', 'LimitNOFILE': '524288', 'LimitNOFILESoft': '1024', 'LimitAS': 'infinity', 'LimitASSoft': 'infinity', 'LimitNPROC': '11511', 'LimitNPROCSoft': '11511', 'LimitMEMLOCK': '8388608', 'LimitMEMLOCKSoft': '8388608', 'LimitLOCKS': 'infinity', 'LimitLOCKSSoft': 'infinity', 'LimitSIGPENDING': '11511', 'LimitSIGPENDINGSoft': '11511', 'LimitMSGQUEUE': '819200', 'LimitMSGQUEUESoft': '819200', 'LimitNICE': '0', 'LimitNICESoft': '0', 'LimitRTPRIO': '0', 'LimitRTPRIOSoft': '0', 'LimitRTTIME': 'infinity', 'LimitRTTIMESoft': 'infinity', 'RootEphemeral': 'no', 'OOMScoreAdjust': '0', 'CoredumpFilter': '0x33', 'Nice': '0', 'IOSchedulingClass': '2', 'IOSchedulingPriority': '4', 'CPUSchedulingPolicy': '0', 'CPUSchedulingPriority': '0', 'CPUAffinityFromNUMA': 'no', 'NUMAPolicy': 'n/a', 'TimerSlackNSec': '50000', 'CPUSchedulingResetOnFork': 'no', 'NonBlocking': 'no', 'StandardInput': 'null', 'StandardOutput': 'journal', 'StandardError': 'inherit', 'TTYReset': 'no', 'TTYVHangup': 'no', 'TTYVTDisallocate': 'no', 'SyslogPriority': '30', 'SyslogLevelPrefix': 'yes', 'SyslogLevel': '6', 'SyslogFacility': '3', 'LogLevelMax': '-1', 'LogRateLimitIntervalUSec': '0', 'LogRateLimitBurst': '0', 'SecureBits': '0', 'CapabilityBoundingSet': 'cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore', 'User': 'gnome-remote-desktop', 'DynamicUser': 'no', 'SetLoginEnvironment': 'no', 'RemoveIPC': 'no', 'PrivateTmp': 'no', 'PrivateDevices': 'no', 'ProtectClock': 'no', 'ProtectKernelTunables': 'no', 'ProtectKernelModules': 'no', 'ProtectKernelLogs': 'no', 'ProtectControlGroups': 'no', 'PrivateNetwork': 'no', 'PrivateUsers': 'no', 'PrivateMounts': 'no', 'PrivateIPC': 'no', 'ProtectHome': 'no', 'ProtectSystem': 'no', 'SameProcessGroup': 'no', 'UtmpMode': 'init', 'IgnoreSIGPIPE': 'yes', 'NoNewPrivileges': 'no', 'SystemCallErrorNumber': '2147483646', 'LockPersonality': 'no', 'RuntimeDirectoryPreserve': 'no', 'RuntimeDirectoryMode': '0755', 'StateDirectoryMode': '0755', 'CacheDirectoryMode': '0755', 'LogsDirectoryMode': '0755', 'ConfigurationDirectoryMode': '0755', 'TimeoutCleanUSec': 'infinity', 'MemoryDenyWriteExecute': 'no', 'RestrictRealtime': 'no', 'RestrictSUIDSGID': 'no', 'RestrictNamespaces': 'no', 'MountAPIVFS': 'no', 'KeyringMode': 'private', 'ProtectProc': 'default', 'ProcSubset': 'all', 'ProtectHostname': 'no', 'MemoryKSM': 'no', 'RootImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'MountImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'ExtensionImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'KillMode': 'control-group', 'KillSignal': '15', 'RestartKillSignal': '15', 'FinalKillSignal': '9', 'SendSIGKILL': 'yes', 'SendSIGHUP': 'no', 'WatchdogSignal': '6', 'Id': 'gnome-remote-desktop.service', 'Names': 'gnome-remote-desktop.service', 'Requires': 'system.slice dbus.socket sysinit.target', 'WantedBy': 'graphical.target', 'Conflicts': 'shutdown.target', 'Before': 'shutdown.target graphical.target', 'After': 'dbus.socket systemd-journald.socket basic.target sysinit.target system.slice', 'Description': 'GNOME Remote Desktop', 'LoadState': 'loaded', 'ActiveState': 'active', 'FreezerState': 'running', 'SubState': 'running', 'FragmentPath': '/usr/lib/systemd/system/gnome-remote-desktop.service', 'UnitFileState': 'enabled', 'UnitFilePreset': 'enabled', 'StateChangeTimestamp': 'Tue 2026-09-29 14:06:09 +03', 'StateChangeTimestampMonotonic': '12480973', 'InactiveExitTimestamp': 'Tue 2026-09-29 14:06:05 +03', 'InactiveExitTimestampMonotonic': '9199320', 'ActiveEnterTimestamp': 'Tue 2026-09-29 14:06:07 +03', 'ActiveEnterTimestampMonotonic': '11169247', 'ActiveExitTimestampMonotonic': '0', 'InactiveEnterTimestampMonotonic': '0', 'CanStart': 'yes', 'CanStop': 'yes', 'CanReload': 'no', 'CanIsolate': 'no', 'CanFreeze': 'yes', 'StopWhenUnneeded': 'no', 'RefuseManualStart': 'no', 'RefuseManualStop': 'no', 'AllowIsolate': 'no', 'DefaultDependencies': 'yes', 'SurviveFinalKillSignal': 'no', 'OnSuccessJobMode': 'fail', 'OnFailureJobMode': 'replace', 'IgnoreOnIsolate': 'no', 'NeedDaemonReload': 'no', 'JobTimeoutUSec': 'infinity', 'JobRunningTimeoutUSec': 'infinity', 'JobTimeoutAction': 'none', 'ConditionResult': 'yes', 'AssertResult': 'yes', 'ConditionTimestamp': 'Tue 2026-09-29 14:06:05 +03', 'ConditionTimestampMonotonic': '9141955', 'AssertTimestamp': 'Tue 2026-09-29 14:06:05 +03', 'AssertTimestampMonotonic': '9141959', 'Transient': 'no', 'Perpetual': 'no', 'StartLimitIntervalUSec': '10s', 'StartLimitBurst': '5', 'StartLimitAction': 'none', 'FailureAction': 'none', 'SuccessAction': 'none', 'InvocationID': '4d7ea570df904b7e857d25274dcf95d7', 'CollectMode': 'inactive'}, 'invocation': {'module_args': {'name': 'gnome-remote-desktop', 'daemon_reload': False, 'daemon_reexec': False, 'scope': 'system', 'no_block': False, 'state': None, 'enabled': None, 'force': None, 'masked': None}}, 'failed': False, 'failed_when_result': False, 'item': 'gnome-remote-desktop', 'ansible_loop_var': 'item'}) => {
+    "msg": "gnome-remote-desktop: active"
+}
+ok: [localhost] => (item={'name': 'ssh', 'changed': False, 'status': {'ExitType': 'main', 'Restart': 'no', 'RestartMode': 'normal', 'NotifyAccess': 'none', 'RestartUSec': '100ms', 'RestartSteps': '0', 'RestartMaxDelayUSec': 'infinity', 'RestartUSecNext': '100ms', 'TimeoutStartUSec': '1min 30s', 'TimeoutStopUSec': '1min 30s', 'TimeoutAbortUSec': '1min 30s', 'TimeoutStartFailureMode': 'terminate', 'TimeoutStopFailureMode': 'terminate', 'RuntimeMaxUSec': 'infinity', 'RuntimeRandomizedExtraUSec': '0', 'WatchdogUSec': 'infinity', 'WatchdogTimestampMonotonic': '0', 'RootDirectoryStartOnly': 'no', 'RemainAfterExit': 'no', 'GuessMainPID': 'yes', 'MainPID': '0', 'ControlPID': '0', 'FileDescriptorStoreMax': '0', 'NFileDescriptorStore': '0', 'FileDescriptorStorePreserve': 'restart', 'StatusErrno': '0', 'Result': 'success', 'ReloadResult': 'success', 'CleanResult': 'success', 'UID': '[not set]', 'GID': '[not set]', 'NRestarts': '0', 'ReloadSignal': '1', 'ExecMainStartTimestampMonotonic': '0', 'ExecMainExitTimestampMonotonic': '0', 'ExecMainPID': '0', 'ExecMainCode': '0', 'ExecMainStatus': '0', 'ControlGroupId': '0', 'MemoryCurrent': '[not set]', 'MemoryPeak': '[not set]', 'MemorySwapCurrent': '[not set]', 'MemorySwapPeak': '[not set]', 'MemoryZSwapCurrent': '[not set]', 'MemoryAvailable': '[not set]', 'CPUUsageNSec': '[not set]', 'TasksCurrent': '[not set]', 'IPIngressBytes': '[no data]', 'IPIngressPackets': '[no data]', 'IPEgressBytes': '[no data]', 'IPEgressPackets': '[no data]', 'IOReadBytes': '[not set]', 'IOReadOperations': '[not set]', 'IOWriteBytes': '[not set]', 'IOWriteOperations': '[not set]', 'Delegate': 'no', 'CPUAccounting': 'yes', 'CPUWeight': '[not set]', 'StartupCPUWeight': '[not set]', 'CPUShares': '[not set]', 'StartupCPUShares': '[not set]', 'CPUQuotaPerSecUSec': 'infinity', 'CPUQuotaPeriodUSec': 'infinity', 'IOAccounting': 'no', 'IOWeight': '[not set]', 'StartupIOWeight': '[not set]', 'BlockIOAccounting': 'no', 'BlockIOWeight': '[not set]', 'StartupBlockIOWeight': '[not set]', 'MemoryAccounting': 'yes', 'DefaultMemoryLow': '0', 'DefaultStartupMemoryLow': '0', 'DefaultMemoryMin': '0', 'MemoryMin': '0', 'MemoryLow': '0', 'StartupMemoryLow': '0', 'MemoryHigh': 'infinity', 'StartupMemoryHigh': 'infinity', 'MemoryMax': 'infinity', 'StartupMemoryMax': 'infinity', 'MemorySwapMax': 'infinity', 'StartupMemorySwapMax': 'infinity', 'MemoryZSwapMax': 'infinity', 'StartupMemoryZSwapMax': 'infinity', 'MemoryLimit': 'infinity', 'DevicePolicy': 'auto', 'TasksAccounting': 'yes', 'TasksMax': '3453', 'IPAccounting': 'no', 'ManagedOOMSwap': 'auto', 'ManagedOOMMemoryPressure': 'auto', 'ManagedOOMMemoryPressureLimit': '0', 'ManagedOOMPreference': 'none', 'MemoryPressureWatch': 'auto', 'MemoryPressureThresholdUSec': '200ms', 'CoredumpReceive': 'no', 'UMask': '0022', 'LimitCPU': 'infinity', 'LimitCPUSoft': 'infinity', 'LimitFSIZE': 'infinity', 'LimitFSIZESoft': 'infinity', 'LimitDATA': 'infinity', 'LimitDATASoft': 'infinity', 'LimitSTACK': 'infinity', 'LimitSTACKSoft': '8388608', 'LimitCORE': 'infinity', 'LimitCORESoft': '0', 'LimitRSS': 'infinity', 'LimitRSSSoft': 'infinity', 'LimitNOFILE': '1048576', 'LimitNOFILESoft': '1048576', 'LimitAS': 'infinity', 'LimitASSoft': 'infinity', 'LimitNPROC': '11511', 'LimitNPROCSoft': '11511', 'LimitMEMLOCK': '512700416', 'LimitMEMLOCKSoft': '512700416', 'LimitLOCKS': 'infinity', 'LimitLOCKSSoft': 'infinity', 'LimitSIGPENDING': '11511', 'LimitSIGPENDINGSoft': '11511', 'LimitMSGQUEUE': '819200', 'LimitMSGQUEUESoft': '819200', 'LimitNICE': '0', 'LimitNICESoft': '0', 'LimitRTPRIO': '0', 'LimitRTPRIOSoft': '0', 'LimitRTTIME': 'infinity', 'LimitRTTIMESoft': 'infinity', 'RootEphemeral': 'no', 'OOMScoreAdjust': '0', 'CoredumpFilter': '0x33', 'Nice': '0', 'IOSchedulingClass': '2', 'IOSchedulingPriority': '4', 'CPUSchedulingPolicy': '0', 'CPUSchedulingPriority': '0', 'CPUAffinityFromNUMA': 'no', 'NUMAPolicy': 'n/a', 'TimerSlackNSec': '50000', 'CPUSchedulingResetOnFork': 'no', 'NonBlocking': 'no', 'StandardInput': 'null', 'StandardOutput': 'inherit', 'StandardError': 'inherit', 'TTYReset': 'no', 'TTYVHangup': 'no', 'TTYVTDisallocate': 'no', 'SyslogPriority': '30', 'SyslogLevelPrefix': 'yes', 'SyslogLevel': '6', 'SyslogFacility': '3', 'LogLevelMax': '-1', 'LogRateLimitIntervalUSec': '0', 'LogRateLimitBurst': '0', 'SecureBits': '0', 'CapabilityBoundingSet': 'cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_fsetid cap_kill cap_setgid cap_setuid cap_setpcap cap_linux_immutable cap_net_bind_service cap_net_broadcast cap_net_admin cap_net_raw cap_ipc_lock cap_ipc_owner cap_sys_module cap_sys_rawio cap_sys_chroot cap_sys_ptrace cap_sys_pacct cap_sys_admin cap_sys_boot cap_sys_nice cap_sys_resource cap_sys_time cap_sys_tty_config cap_mknod cap_lease cap_audit_write cap_audit_control cap_setfcap cap_mac_override cap_mac_admin cap_syslog cap_wake_alarm cap_block_suspend cap_audit_read cap_perfmon cap_bpf cap_checkpoint_restore', 'DynamicUser': 'no', 'SetLoginEnvironment': 'no', 'RemoveIPC': 'no', 'PrivateTmp': 'no', 'PrivateDevices': 'no', 'ProtectClock': 'no', 'ProtectKernelTunables': 'no', 'ProtectKernelModules': 'no', 'ProtectKernelLogs': 'no', 'ProtectControlGroups': 'no', 'PrivateNetwork': 'no', 'PrivateUsers': 'no', 'PrivateMounts': 'no', 'PrivateIPC': 'no', 'ProtectHome': 'no', 'ProtectSystem': 'no', 'SameProcessGroup': 'no', 'UtmpMode': 'init', 'IgnoreSIGPIPE': 'yes', 'NoNewPrivileges': 'no', 'SystemCallErrorNumber': '2147483646', 'LockPersonality': 'no', 'RuntimeDirectoryPreserve': 'no', 'RuntimeDirectoryMode': '0755', 'StateDirectoryMode': '0755', 'CacheDirectoryMode': '0755', 'LogsDirectoryMode': '0755', 'ConfigurationDirectoryMode': '0755', 'TimeoutCleanUSec': 'infinity', 'MemoryDenyWriteExecute': 'no', 'RestrictRealtime': 'no', 'RestrictSUIDSGID': 'no', 'RestrictNamespaces': 'no', 'MountAPIVFS': 'no', 'KeyringMode': 'private', 'ProtectProc': 'default', 'ProcSubset': 'all', 'ProtectHostname': 'no', 'MemoryKSM': 'no', 'RootImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'MountImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'ExtensionImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'KillMode': 'control-group', 'KillSignal': '15', 'RestartKillSignal': '15', 'FinalKillSignal': '9', 'SendSIGKILL': 'yes', 'SendSIGHUP': 'no', 'WatchdogSignal': '6', 'Id': 'ssh.service', 'Names': 'ssh.service', 'Description': 'ssh.service', 'LoadState': 'not-found', 'ActiveState': 'inactive', 'FreezerState': 'running', 'SubState': 'dead', 'StateChangeTimestampMonotonic': '0', 'InactiveExitTimestampMonotonic': '0', 'ActiveEnterTimestampMonotonic': '0', 'ActiveExitTimestampMonotonic': '0', 'InactiveEnterTimestampMonotonic': '0', 'CanStart': 'no', 'CanStop': 'yes', 'CanReload': 'no', 'CanIsolate': 'no', 'CanFreeze': 'yes', 'StopWhenUnneeded': 'no', 'RefuseManualStart': 'no', 'RefuseManualStop': 'no', 'AllowIsolate': 'no', 'DefaultDependencies': 'yes', 'SurviveFinalKillSignal': 'no', 'OnSuccessJobMode': 'fail', 'OnFailureJobMode': 'replace', 'IgnoreOnIsolate': 'no', 'NeedDaemonReload': 'no', 'JobTimeoutUSec': 'infinity', 'JobRunningTimeoutUSec': 'infinity', 'JobTimeoutAction': 'none', 'ConditionResult': 'no', 'AssertResult': 'no', 'ConditionTimestampMonotonic': '0', 'AssertTimestampMonotonic': '0', 'LoadError': 'org.freedesktop.systemd1.NoSuchUnit "Unit ssh.service not found."', 'Transient': 'no', 'Perpetual': 'no', 'StartLimitIntervalUSec': '10s', 'StartLimitBurst': '5', 'StartLimitAction': 'none', 'FailureAction': 'none', 'SuccessAction': 'none', 'CollectMode': 'inactive'}, 'invocation': {'module_args': {'name': 'ssh', 'daemon_reload': False, 'daemon_reexec': False, 'scope': 'system', 'no_block': False, 'state': None, 'enabled': None, 'force': None, 'masked': None}}, 'failed': False, 'failed_when_result': False, 'item': 'ssh', 'ansible_loop_var': 'item'}) => {
+    "msg": "ssh: inactive"
+}
+
+TASK [Check logging services] **************************************************
+ok: [localhost] => (item=rsyslog)
+ok: [localhost] => (item=systemd-journald)
+
+TASK [Show logging service status] *********************************************
+ok: [localhost] => (item={'name': 'rsyslog', 'changed': False, 'status': {'Type': 'notify', 'ExitType': 'main', 'Restart': 'on-failure', 'RestartMode': 'normal', 'NotifyAccess': 'main', 'RestartUSec': '100ms', 'RestartSteps': '0', 'RestartMaxDelayUSec': 'infinity', 'RestartUSecNext': '100ms', 'TimeoutStartUSec': '1min 30s', 'TimeoutStopUSec': '1min 30s', 'TimeoutAbortUSec': '1min 30s', 'TimeoutStartFailureMode': 'terminate', 'TimeoutStopFailureMode': 'terminate', 'RuntimeMaxUSec': 'infinity', 'RuntimeRandomizedExtraUSec': '0', 'WatchdogUSec': '0', 'WatchdogTimestampMonotonic': '0', 'RootDirectoryStartOnly': 'no', 'RemainAfterExit': 'no', 'GuessMainPID': 'yes', 'MainPID': '883', 'ControlPID': '0', 'FileDescriptorStoreMax': '0', 'NFileDescriptorStore': '0', 'FileDescriptorStorePreserve': 'restart', 'StatusErrno': '0', 'Result': 'success', 'ReloadResult': 'success', 'CleanResult': 'success', 'UID': '[not set]', 'GID': '[not set]', 'NRestarts': '0', 'OOMPolicy': 'stop', 'ReloadSignal': '1', 'ExecMainStartTimestamp': 'Tue 2026-09-29 14:06:07 +03', 'ExecMainStartTimestampMonotonic': '10378483', 'ExecMainExitTimestampMonotonic': '0', 'ExecMainPID': '883', 'ExecMainCode': '0', 'ExecMainStatus': '0', 'ExecStartPre': '{ path=/usr/lib/rsyslog/reload-apparmor-profile ; argv[]=/usr/lib/rsyslog/reload-apparmor-profile ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'ExecStartPreEx': '{ path=/usr/lib/rsyslog/reload-apparmor-profile ; argv[]=/usr/lib/rsyslog/reload-apparmor-profile ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'ExecStart': '{ path=/usr/sbin/rsyslogd ; argv[]=/usr/sbin/rsyslogd -n -iNONE ; ignore_errors=no ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'ExecStartEx': '{ path=/usr/sbin/rsyslogd ; argv[]=/usr/sbin/rsyslogd -n -iNONE ; flags= ; start_time=[n/a] ; stop_time=[n/a] ; pid=0 ; code=(null) ; status=0/0 }', 'Slice': 'system.slice', 'ControlGroup': '/system.slice/rsyslog.service', 'ControlGroupId': '2822', 'MemoryCurrent': '3207168', 'MemoryPeak': '5337088', 'MemorySwapCurrent': '0', 'MemorySwapPeak': '0', 'MemoryZSwapCurrent': '0', 'MemoryAvailable': '2057523200', 'CPUUsageNSec': '409774000', 'TasksCurrent': '4', 'IPIngressBytes': '[no data]', 'IPIngressPackets': '[no data]', 'IPEgressBytes': '[no data]', 'IPEgressPackets': '[no data]', 'IOReadBytes': '[not set]', 'IOReadOperations': '[not set]', 'IOWriteBytes': '[not set]', 'IOWriteOperations': '[not set]', 'Delegate': 'no', 'CPUAccounting': 'yes', 'CPUWeight': '[not set]', 'StartupCPUWeight': '[not set]', 'CPUShares': '[not set]', 'StartupCPUShares': '[not set]', 'CPUQuotaPerSecUSec': 'infinity', 'CPUQuotaPeriodUSec': 'infinity', 'IOAccounting': 'no', 'IOWeight': '[not set]', 'StartupIOWeight': '[not set]', 'BlockIOAccounting': 'no', 'BlockIOWeight': '[not set]', 'StartupBlockIOWeight': '[not set]', 'MemoryAccounting': 'yes', 'DefaultMemoryLow': '0', 'DefaultStartupMemoryLow': '0', 'DefaultMemoryMin': '0', 'MemoryMin': '0', 'MemoryLow': '0', 'StartupMemoryLow': '0', 'MemoryHigh': 'infinity', 'StartupMemoryHigh': 'infinity', 'MemoryMax': 'infinity', 'StartupMemoryMax': 'infinity', 'MemorySwapMax': 'infinity', 'StartupMemorySwapMax': 'infinity', 'MemoryZSwapMax': 'infinity', 'StartupMemoryZSwapMax': 'infinity', 'MemoryLimit': 'infinity', 'DevicePolicy': 'auto', 'TasksAccounting': 'yes', 'TasksMax': '3453', 'IPAccounting': 'no', 'ManagedOOMSwap': 'auto', 'ManagedOOMMemoryPressure': 'auto', 'ManagedOOMMemoryPressureLimit': '0', 'ManagedOOMPreference': 'none', 'MemoryPressureWatch': 'auto', 'MemoryPressureThresholdUSec': '200ms', 'CoredumpReceive': 'no', 'UMask': '0022', 'LimitCPU': 'infinity', 'LimitCPUSoft': 'infinity', 'LimitFSIZE': 'infinity', 'LimitFSIZESoft': 'infinity', 'LimitDATA': 'infinity', 'LimitDATASoft': 'infinity', 'LimitSTACK': 'infinity', 'LimitSTACKSoft': '8388608', 'LimitCORE': 'infinity', 'LimitCORESoft': '0', 'LimitRSS': 'infinity', 'LimitRSSSoft': 'infinity', 'LimitNOFILE': '16384', 'LimitNOFILESoft': '16384', 'LimitAS': 'infinity', 'LimitASSoft': 'infinity', 'LimitNPROC': '11511', 'LimitNPROCSoft': '11511', 'LimitMEMLOCK': '8388608', 'LimitMEMLOCKSoft': '8388608', 'LimitLOCKS': 'infinity', 'LimitLOCKSSoft': 'infinity', 'LimitSIGPENDING': '11511', 'LimitSIGPENDINGSoft': '11511', 'LimitMSGQUEUE': '819200', 'LimitMSGQUEUESoft': '819200', 'LimitNICE': '0', 'LimitNICESoft': '0', 'LimitRTPRIO': '0', 'LimitRTPRIOSoft': '0', 'LimitRTTIME': 'infinity', 'LimitRTTIMESoft': 'infinity', 'RootEphemeral': 'no', 'OOMScoreAdjust': '0', 'CoredumpFilter': '0x33', 'Nice': '0', 'IOSchedulingClass': '2', 'IOSchedulingPriority': '4', 'CPUSchedulingPolicy': '0', 'CPUSchedulingPriority': '0', 'CPUAffinityFromNUMA': 'no', 'NUMAPolicy': 'n/a', 'TimerSlackNSec': '50000', 'CPUSchedulingResetOnFork': 'no', 'NonBlocking': 'no', 'StandardInput': 'null', 'StandardOutput': 'null', 'StandardError': 'journal', 'TTYReset': 'no', 'TTYVHangup': 'no', 'TTYVTDisallocate': 'no', 'SyslogPriority': '30', 'SyslogLevelPrefix': 'yes', 'SyslogLevel': '6', 'SyslogFacility': '3', 'LogLevelMax': '-1', 'LogRateLimitIntervalUSec': '0', 'LogRateLimitBurst': '0', 'SecureBits': '0', 'CapabilityBoundingSet': 'cap_chown cap_dac_override cap_setgid cap_setuid cap_net_bind_service cap_net_admin cap_sys_admin cap_sys_resource cap_lease cap_mac_admin cap_syslog cap_block_suspend', 'DynamicUser': 'no', 'SetLoginEnvironment': 'no', 'RemoveIPC': 'no', 'PrivateTmp': 'no', 'PrivateDevices': 'no', 'ProtectClock': 'yes', 'ProtectKernelTunables': 'no', 'ProtectKernelModules': 'no', 'ProtectKernelLogs': 'no', 'ProtectControlGroups': 'no', 'PrivateNetwork': 'no', 'PrivateUsers': 'no', 'PrivateMounts': 'no', 'PrivateIPC': 'no', 'ProtectHome': 'no', 'ProtectSystem': 'no', 'SameProcessGroup': 'no', 'UtmpMode': 'init', 'IgnoreSIGPIPE': 'yes', 'NoNewPrivileges': 'yes', 'SystemCallFilter': '_llseek _newselect accept accept4 access add_key alarm arch_prctl arm_fadvise64_64 bind brk cacheflush capget capset chdir chmod chown chown32 clock_getres clock_getres_time64 clock_gettime clock_gettime64 clock_nanosleep clock_nanosleep_time64 clone clone3 close close_range connect copy_file_range creat dup dup2 dup3 epoll_create epoll_create1 epoll_ctl epoll_ctl_old epoll_pwait epoll_pwait2 epoll_wait epoll_wait_old eventfd eventfd2 execve execveat exit exit_group faccessat faccessat2 fadvise64 fadvise64_64 fallocate fchdir fchmod fchmodat fchmodat2 fchown fchown32 fchownat fcntl fcntl64 fdatasync fgetxattr flistxattr flock fork fremovexattr fsetxattr fstat fstat64 fstatat64 fstatfs fstatfs64 fsync ftruncate ftruncate64 futex futex_time64 futex_waitv futimesat get_mempolicy get_robust_list get_thread_area getcpu getcwd getdents getdents64 getegid getegid32 geteuid geteuid32 getgid getgid32 getgroups getgroups32 getitimer getpeername getpgid getpgrp getpid getppid getpriority getrandom getresgid getresgid32 getresuid getresuid32 getrlimit getrusage getsid getsockname getsockopt gettid gettimeofday getuid getuid32 getxattr inotify_add_watch inotify_init inotify_init1 inotify_rm_watch io_cancel io_destroy io_getevents io_pgetevents io_pgetevents_time64 io_setup io_submit io_uring_enter io_uring_register io_uring_setup ioctl ioprio_get ioprio_set ipc kcmp keyctl kill lchown lchown32 lgetxattr link linkat listen listxattr llistxattr lremovexattr lseek lsetxattr lstat lstat64 madvise mbind membarrier memfd_create migrate_pages mkdir mkdirat mknod mknodat mlock mlock2 mlockall mmap mmap2 move_pages mprotect mq_getsetattr mq_notify mq_open mq_timedreceive mq_timedreceive_time64 mq_timedsend mq_timedsend_time64 mq_unlink mremap msgctl msgget msgrcv msgsnd msync munlock munlockall munmap name_to_handle_at nanosleep newfstatat nice oldfstat oldlstat oldolduname oldstat olduname open openat openat2 pause personality pidfd_open pidfd_send_signal pipe pipe2 poll ppoll ppoll_time64 prctl pread64 preadv preadv2 prlimit64 process_madvise process_vm_readv process_vm_writev pselect6 pselect6_time64 pwrite64 pwritev pwritev2 read readahead readdir readlink readlinkat readv recv recvfrom recvmmsg recvmmsg_time64 recvmsg remap_file_pages removexattr rename renameat renameat2 request_key restart_syscall riscv_flush_icache rmdir rseq rt_sigaction rt_sigpending rt_sigprocmask rt_sigqueueinfo rt_sigreturn rt_sigsuspend rt_sigtimedwait rt_sigtimedwait_time64 rt_tgsigqueueinfo sched_get_priority_max sched_get_priority_min sched_getaffinity sched_getattr sched_getparam sched_getscheduler sched_rr_get_interval sched_rr_get_interval_time64 sched_setaffinity sched_setattr sched_setparam sched_setscheduler sched_yield select semctl semget semop semtimedop semtimedop_time64 send sendfile sendfile64 sendmmsg sendmsg sendto set_mempolicy set_mempolicy_home_node set_robust_list set_thread_area set_tid_address set_tls setfsgid setfsgid32 setfsuid setfsuid32 setgid setgid32 setgroups setgroups32 setitimer setns setpgid setpriority setregid setregid32 setresgid setresgid32 setresuid setresuid32 setreuid setreuid32 setrlimit setsid setsockopt setuid setuid32 setxattr shmat shmctl shmdt shmget shutdown sigaction sigaltstack signal signalfd signalfd4 sigpending sigprocmask sigreturn sigsuspend socket socketcall socketpair splice stat stat64 statfs statfs64 statx swapcontext symlink symlinkat sync sync_file_range sync_file_range2 syncfs sysinfo tee tgkill time timer_create timer_delete timer_getoverrun timer_gettime timer_gettime64 timer_settime timer_settime64 timerfd_create timerfd_gettime timerfd_gettime64 timerfd_settime timerfd_settime64 times tkill truncate truncate64 ugetrlimit umask uname unlink unlinkat unshare userfaultfd utime utimensat utimensat_time64 utimes vfork vmsplice wait4 waitid waitpid write writev', 'SystemCallErrorNumber': '2147483646', 'LockPersonality': 'no', 'RestrictAddressFamilies': 'AF_INET AF_INET6 AF_UNIX', 'RuntimeDirectoryPreserve': 'no', 'RuntimeDirectoryMode': '0755', 'StateDirectoryMode': '0755', 'CacheDirectoryMode': '0755', 'LogsDirectoryMode': '0755', 'ConfigurationDirectoryMode': '0755', 'TimeoutCleanUSec': 'infinity', 'MemoryDenyWriteExecute': 'no', 'RestrictRealtime': 'no', 'RestrictSUIDSGID': 'no', 'RestrictNamespaces': 'no', 'MountAPIVFS': 'no', 'KeyringMode': 'private', 'ProtectProc': 'default', 'ProcSubset': 'all', 'ProtectHostname': 'yes', 'MemoryKSM': 'no', 'RootImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'MountImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'ExtensionImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'KillMode': 'control-group', 'KillSignal': '15', 'RestartKillSignal': '15', 'FinalKillSignal': '9', 'SendSIGKILL': 'yes', 'SendSIGHUP': 'no', 'WatchdogSignal': '6', 'Id': 'rsyslog.service', 'Names': 'rsyslog.service syslog.service', 'Requires': 'syslog.socket sysinit.target system.slice', 'WantedBy': 'multi-user.target', 'Conflicts': 'shutdown.target', 'Before': 'shutdown.target multi-user.target', 'After': 'basic.target syslog.socket systemd-journald.socket system.slice sysinit.target', 'TriggeredBy': 'syslog.socket', 'Documentation': '"man:rsyslogd(8)" "man:rsyslog.conf(5)" https://www.rsyslog.com/doc/', 'Description': 'System Logging Service', 'LoadState': 'loaded', 'ActiveState': 'active', 'FreezerState': 'running', 'SubState': 'running', 'FragmentPath': '/usr/lib/systemd/system/rsyslog.service', 'UnitFileState': 'enabled', 'UnitFilePreset': 'enabled', 'StateChangeTimestamp': 'Tue 2026-09-29 14:06:07 +03', 'StateChangeTimestampMonotonic': '10775525', 'InactiveExitTimestamp': 'Tue 2026-09-29 14:06:06 +03', 'InactiveExitTimestampMonotonic': '9526935', 'ActiveEnterTimestamp': 'Tue 2026-09-29 14:06:07 +03', 'ActiveEnterTimestampMonotonic': '10775525', 'ActiveExitTimestampMonotonic': '0', 'InactiveEnterTimestampMonotonic': '0', 'CanStart': 'yes', 'CanStop': 'yes', 'CanReload': 'no', 'CanIsolate': 'no', 'CanFreeze': 'yes', 'StopWhenUnneeded': 'no', 'RefuseManualStart': 'no', 'RefuseManualStop': 'no', 'AllowIsolate': 'no', 'DefaultDependencies': 'yes', 'SurviveFinalKillSignal': 'no', 'OnSuccessJobMode': 'fail', 'OnFailureJobMode': 'replace', 'IgnoreOnIsolate': 'no', 'NeedDaemonReload': 'no', 'JobTimeoutUSec': 'infinity', 'JobRunningTimeoutUSec': 'infinity', 'JobTimeoutAction': 'none', 'ConditionResult': 'yes', 'AssertResult': 'yes', 'ConditionTimestamp': 'Tue 2026-09-29 14:06:06 +03', 'ConditionTimestampMonotonic': '9433817', 'AssertTimestamp': 'Tue 2026-09-29 14:06:06 +03', 'AssertTimestampMonotonic': '9433821', 'Transient': 'no', 'Perpetual': 'no', 'StartLimitIntervalUSec': '10s', 'StartLimitBurst': '5', 'StartLimitAction': 'none', 'FailureAction': 'none', 'SuccessAction': 'none', 'InvocationID': '4978b06d23f842489ad827e99177195c', 'CollectMode': 'inactive'}, 'invocation': {'module_args': {'name': 'rsyslog', 'daemon_reload': False, 'daemon_reexec': False, 'scope': 'system', 'no_block': False, 'state': None, 'enabled': None, 'force': None, 'masked': None}}, 'failed': False, 'failed_when_result': False, 'item': 'rsyslog', 'ansible_loop_var': 'item'}) => {
+    "msg": "rsyslog: active"
+}
+ok: [localhost] => (item={'name': 'systemd-journald', 'changed': False, 'status': {'Type': 'notify', 'ExitType': 'main', 'Restart': 'always', 'RestartMode': 'normal', 'NotifyAccess': 'main', 'RestartUSec': '0', 'RestartSteps': '0', 'RestartMaxDelayUSec': 'infinity', 'RestartUSecNext': '0', 'TimeoutStartUSec': '1min 30s', 'TimeoutStopUSec': '1min 30s', 'TimeoutAbortUSec': '1min 30s', 'TimeoutStartFailureMode': 'terminate', 'TimeoutStopFailureMode': 'terminate', 'RuntimeMaxUSec': 'infinity', 'RuntimeRandomizedExtraUSec': '0', 'WatchdogUSec': '3min', 'WatchdogTimestamp': 'Tue 2026-09-29 15:49:07 +03', 'WatchdogTimestampMonotonic': '6190519705', 'RootDirectoryStartOnly': 'no', 'RemainAfterExit': 'no', 'GuessMainPID': 'yes', 'MainPID': '5029', 'ControlPID': '0', 'FileDescriptorStoreMax': '4224', 'NFileDescriptorStore': '95', 'FileDescriptorStorePreserve': 'restart', 'StatusText': 'Processing requests...', 'StatusErrno': '0', 'Result': 'success', 'ReloadResult': 'success', 'CleanResult': 'success', 'UID': '[not set]', 'GID': '[not set]', 'NRestarts': '1', 'OOMPolicy': 'stop', 'ReloadSignal': '1', 'ExecMainStartTimestamp': 'Tue 2026-09-29 15:41:07 +03', 'ExecMainStartTimestampMonotonic': '5711084465', 'ExecMainExitTimestampMonotonic': '0', 'ExecMainPID': '5029', 'ExecMainCode': '0', 'ExecMainStatus': '0', 'ExecStart': '{ path=/usr/lib/systemd/systemd-journald ; argv[]=/usr/lib/systemd/systemd-journald ; ignore_errors=no ; start_time=[Tue 2026-09-29 15:41:07 +03] ; stop_time=[n/a] ; pid=5029 ; code=(null) ; status=0/0 }', 'ExecStartEx': '{ path=/usr/lib/systemd/systemd-journald ; argv[]=/usr/lib/systemd/systemd-journald ; flags= ; start_time=[Tue 2026-09-29 15:41:07 +03] ; stop_time=[n/a] ; pid=5029 ; code=(null) ; status=0/0 }', 'Slice': 'system.slice', 'ControlGroup': '/system.slice/systemd-journald.service', 'ControlGroupId': '9201', 'MemoryCurrent': '18849792', 'MemoryPeak': '19365888', 'MemorySwapCurrent': '0', 'MemorySwapPeak': '0', 'MemoryZSwapCurrent': '0', 'MemoryAvailable': '2056790016', 'CPUUsageNSec': '210795000', 'TasksCurrent': '1', 'IPIngressBytes': '[no data]', 'IPIngressPackets': '[no data]', 'IPEgressBytes': '[no data]', 'IPEgressPackets': '[no data]', 'IOReadBytes': '[not set]', 'IOReadOperations': '[not set]', 'IOWriteBytes': '[not set]', 'IOWriteOperations': '[not set]', 'Delegate': 'no', 'CPUAccounting': 'yes', 'CPUWeight': '[not set]', 'StartupCPUWeight': '[not set]', 'CPUShares': '[not set]', 'StartupCPUShares': '[not set]', 'CPUQuotaPerSecUSec': 'infinity', 'CPUQuotaPeriodUSec': 'infinity', 'IOAccounting': 'no', 'IOWeight': '[not set]', 'StartupIOWeight': '[not set]', 'BlockIOAccounting': 'no', 'BlockIOWeight': '[not set]', 'StartupBlockIOWeight': '[not set]', 'MemoryAccounting': 'yes', 'DefaultMemoryLow': '0', 'DefaultStartupMemoryLow': '0', 'DefaultMemoryMin': '0', 'MemoryMin': '0', 'MemoryLow': '0', 'StartupMemoryLow': '0', 'MemoryHigh': 'infinity', 'StartupMemoryHigh': 'infinity', 'MemoryMax': 'infinity', 'StartupMemoryMax': 'infinity', 'MemorySwapMax': 'infinity', 'StartupMemorySwapMax': 'infinity', 'MemoryZSwapMax': 'infinity', 'StartupMemoryZSwapMax': 'infinity', 'MemoryLimit': 'infinity', 'DevicePolicy': 'auto', 'DeviceAllow': 'char-* rw', 'TasksAccounting': 'yes', 'TasksMax': '3453', 'IPAccounting': 'no', 'IPAddressDeny': '0.0.0.0/0 ::/0', 'ManagedOOMSwap': 'auto', 'ManagedOOMMemoryPressure': 'auto', 'ManagedOOMMemoryPressureLimit': '0', 'ManagedOOMPreference': 'none', 'MemoryPressureWatch': 'auto', 'MemoryPressureThresholdUSec': '200ms', 'CoredumpReceive': 'no', 'PassEnvironment': 'TERM', 'UMask': '0022', 'LimitCPU': 'infinity', 'LimitCPUSoft': 'infinity', 'LimitFSIZE': 'infinity', 'LimitFSIZESoft': 'infinity', 'LimitDATA': 'infinity', 'LimitDATASoft': 'infinity', 'LimitSTACK': 'infinity', 'LimitSTACKSoft': '8388608', 'LimitCORE': 'infinity', 'LimitCORESoft': '0', 'LimitRSS': 'infinity', 'LimitRSSSoft': 'infinity', 'LimitNOFILE': '524288', 'LimitNOFILESoft': '524288', 'LimitAS': 'infinity', 'LimitASSoft': 'infinity', 'LimitNPROC': '11511', 'LimitNPROCSoft': '11511', 'LimitMEMLOCK': '8388608', 'LimitMEMLOCKSoft': '8388608', 'LimitLOCKS': 'infinity', 'LimitLOCKSSoft': 'infinity', 'LimitSIGPENDING': '11511', 'LimitSIGPENDINGSoft': '11511', 'LimitMSGQUEUE': '819200', 'LimitMSGQUEUESoft': '819200', 'LimitNICE': '0', 'LimitNICESoft': '0', 'LimitRTPRIO': '0', 'LimitRTPRIOSoft': '0', 'LimitRTTIME': 'infinity', 'LimitRTTIMESoft': 'infinity', 'RootEphemeral': 'no', 'OOMScoreAdjust': '-250', 'CoredumpFilter': '0x33', 'Nice': '-1', 'IOSchedulingClass': '2', 'IOSchedulingPriority': '4', 'CPUSchedulingPolicy': '0', 'CPUSchedulingPriority': '0', 'CPUAffinityFromNUMA': 'no', 'NUMAPolicy': 'n/a', 'TimerSlackNSec': '50000', 'CPUSchedulingResetOnFork': 'no', 'NonBlocking': 'no', 'StandardInput': 'null', 'StandardOutput': 'null', 'StandardError': 'inherit', 'TTYReset': 'no', 'TTYVHangup': 'no', 'TTYVTDisallocate': 'no', 'SyslogPriority': '30', 'SyslogLevelPrefix': 'yes', 'SyslogLevel': '6', 'SyslogFacility': '3', 'LogLevelMax': '-1', 'LogRateLimitIntervalUSec': '0', 'LogRateLimitBurst': '0', 'SecureBits': '0', 'CapabilityBoundingSet': 'cap_chown cap_dac_override cap_dac_read_search cap_fowner cap_setgid cap_setuid cap_sys_ptrace cap_sys_admin cap_audit_control cap_mac_override cap_syslog cap_audit_read', 'DynamicUser': 'no', 'SetLoginEnvironment': 'no', 'RemoveIPC': 'no', 'PrivateTmp': 'no', 'PrivateDevices': 'no', 'ProtectClock': 'yes', 'ProtectKernelTunables': 'no', 'ProtectKernelModules': 'no', 'ProtectKernelLogs': 'no', 'ProtectControlGroups': 'no', 'PrivateNetwork': 'no', 'PrivateUsers': 'no', 'PrivateMounts': 'no', 'PrivateIPC': 'no', 'ProtectHome': 'no', 'ProtectSystem': 'no', 'SameProcessGroup': 'no', 'UtmpMode': 'init', 'IgnoreSIGPIPE': 'yes', 'NoNewPrivileges': 'yes', 'SystemCallFilter': '_llseek _newselect accept accept4 access add_key alarm arch_prctl arm_fadvise64_64 bind brk cacheflush capget capset chdir chmod chown chown32 clock_getres clock_getres_time64 clock_gettime clock_gettime64 clock_nanosleep clock_nanosleep_time64 clone clone3 close close_range connect copy_file_range creat dup dup2 dup3 epoll_create epoll_create1 epoll_ctl epoll_ctl_old epoll_pwait epoll_pwait2 epoll_wait epoll_wait_old eventfd eventfd2 execve execveat exit exit_group faccessat faccessat2 fadvise64 fadvise64_64 fallocate fchdir fchmod fchmodat fchmodat2 fchown fchown32 fchownat fcntl fcntl64 fdatasync fgetxattr flistxattr flock fork fremovexattr fsetxattr fstat fstat64 fstatat64 fstatfs fstatfs64 fsync ftruncate ftruncate64 futex futex_time64 futex_waitv futimesat get_mempolicy get_robust_list get_thread_area getcpu getcwd getdents getdents64 getegid getegid32 geteuid geteuid32 getgid getgid32 getgroups getgroups32 getitimer getpeername getpgid getpgrp getpid getppid getpriority getrandom getresgid getresgid32 getresuid getresuid32 getrlimit getrusage getsid getsockname getsockopt gettid gettimeofday getuid getuid32 getxattr inotify_add_watch inotify_init inotify_init1 inotify_rm_watch io_cancel io_destroy io_getevents io_pgetevents io_pgetevents_time64 io_setup io_submit io_uring_enter io_uring_register io_uring_setup ioctl ioprio_get ioprio_set ipc kcmp keyctl kill lchown lchown32 lgetxattr link linkat listen listxattr llistxattr lremovexattr lseek lsetxattr lstat lstat64 madvise mbind membarrier memfd_create migrate_pages mkdir mkdirat mknod mknodat mlock mlock2 mlockall mmap mmap2 move_pages mprotect mq_getsetattr mq_notify mq_open mq_timedreceive mq_timedreceive_time64 mq_timedsend mq_timedsend_time64 mq_unlink mremap msgctl msgget msgrcv msgsnd msync munlock munlockall munmap name_to_handle_at nanosleep newfstatat nice oldfstat oldlstat oldolduname oldstat olduname open openat openat2 pause personality pidfd_open pidfd_send_signal pipe pipe2 poll ppoll ppoll_time64 prctl pread64 preadv preadv2 prlimit64 process_madvise process_vm_readv process_vm_writev pselect6 pselect6_time64 pwrite64 pwritev pwritev2 read readahead readdir readlink readlinkat readv recv recvfrom recvmmsg recvmmsg_time64 recvmsg remap_file_pages removexattr rename renameat renameat2 request_key restart_syscall riscv_flush_icache rmdir rseq rt_sigaction rt_sigpending rt_sigprocmask rt_sigqueueinfo rt_sigreturn rt_sigsuspend rt_sigtimedwait rt_sigtimedwait_time64 rt_tgsigqueueinfo sched_get_priority_max sched_get_priority_min sched_getaffinity sched_getattr sched_getparam sched_getscheduler sched_rr_get_interval sched_rr_get_interval_time64 sched_setaffinity sched_setattr sched_setparam sched_setscheduler sched_yield select semctl semget semop semtimedop semtimedop_time64 send sendfile sendfile64 sendmmsg sendmsg sendto set_mempolicy set_mempolicy_home_node set_robust_list set_thread_area set_tid_address set_tls setfsgid setfsgid32 setfsuid setfsuid32 setgid setgid32 setgroups setgroups32 setitimer setns setpgid setpriority setregid setregid32 setresgid setresgid32 setresuid setresuid32 setreuid setreuid32 setrlimit setsid setsockopt setuid setuid32 setxattr shmat shmctl shmdt shmget shutdown sigaction sigaltstack signal signalfd signalfd4 sigpending sigprocmask sigreturn sigsuspend socket socketcall socketpair splice stat stat64 statfs statfs64 statx swapcontext symlink symlinkat sync sync_file_range sync_file_range2 syncfs sysinfo tee tgkill time timer_create timer_delete timer_getoverrun timer_gettime timer_gettime64 timer_settime timer_settime64 timerfd_create timerfd_gettime timerfd_gettime64 timerfd_settime timerfd_settime64 times tkill truncate truncate64 ugetrlimit umask uname unlink unlinkat unshare userfaultfd utime utimensat utimensat_time64 utimes vfork vmsplice wait4 waitid waitpid write writev', 'SystemCallArchitectures': 'native', 'SystemCallErrorNumber': '1', 'LockPersonality': 'yes', 'RestrictAddressFamilies': 'AF_NETLINK AF_UNIX', 'RuntimeDirectoryPreserve': 'yes', 'RuntimeDirectoryMode': '0755', 'RuntimeDirectory': 'systemd/journal', 'StateDirectoryMode': '0755', 'CacheDirectoryMode': '0755', 'LogsDirectoryMode': '0755', 'ConfigurationDirectoryMode': '0755', 'TimeoutCleanUSec': 'infinity', 'MemoryDenyWriteExecute': 'yes', 'RestrictRealtime': 'yes', 'RestrictSUIDSGID': 'yes', 'RestrictNamespaces': 'yes', 'MountAPIVFS': 'no', 'KeyringMode': 'private', 'ProtectProc': 'default', 'ProcSubset': 'all', 'ProtectHostname': 'no', 'MemoryKSM': 'no', 'RootImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'MountImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'ExtensionImagePolicy': 'root=verity+signed+encrypted+unprotected+absent:usr=verity+signed+encrypted+unprotected+absent:home=encrypted+unprotected+absent:srv=encrypted+unprotected+absent:tmp=encrypted+unprotected+absent:var=encrypted+unprotected+absent', 'KillMode': 'control-group', 'KillSignal': '15', 'RestartKillSignal': '15', 'FinalKillSignal': '9', 'SendSIGKILL': 'yes', 'SendSIGHUP': 'no', 'WatchdogSignal': '6', 'Id': 'systemd-journald.service', 'Names': 'systemd-journald.service', 'Requires': 'systemd-journald.socket -.mount system.slice', 'Wants': 'systemd-journald-dev-log.socket systemd-journald.socket', 'WantedBy': 'sysinit.target systemd-journal-flush.service initrd-switch-root.target', 'Conflicts': 'soft-reboot.target', 'Before': 'sysinit.target soft-reboot.target systemd-tmpfiles-setup.service systemd-journal-flush.service', 'After': 'systemd-journald.socket -.mount systemd-journald-audit.socket syslog.socket systemd-journald-dev-log.socket system.slice', 'TriggeredBy': 'systemd-journald-dev-log.socket systemd-journald-audit.socket systemd-journald.socket', 'RequiresMountsFor': '/run/systemd/journal', 'Documentation': '"man:systemd-journald.service(8)" "man:journald.conf(5)"', 'Description': 'Journal Service', 'LoadState': 'loaded', 'ActiveState': 'active', 'FreezerState': 'running', 'SubState': 'running', 'FragmentPath': '/usr/lib/systemd/system/systemd-journald.service', 'DropInPaths': '/usr/lib/systemd/system/systemd-journald.service.d/nice.conf', 'UnitFileState': 'static', 'UnitFilePreset': 'enabled', 'StateChangeTimestamp': 'Tue 2026-09-29 15:41:08 +03', 'StateChangeTimestampMonotonic': '5711379001', 'InactiveExitTimestamp': 'Tue 2026-09-29 15:41:07 +03', 'InactiveExitTimestampMonotonic': '5711051427', 'ActiveEnterTimestamp': 'Tue 2026-09-29 15:41:08 +03', 'ActiveEnterTimestampMonotonic': '5711379001', 'ActiveExitTimestamp': 'Tue 2026-09-29 14:24:14 +03', 'ActiveExitTimestampMonotonic': '1098113175', 'InactiveEnterTimestamp': 'Tue 2026-09-29 15:41:07 +03', 'InactiveEnterTimestampMonotonic': '5711049615', 'CanStart': 'yes', 'CanStop': 'yes', 'CanReload': 'no', 'CanIsolate': 'no', 'CanClean': 'runtime fdstore', 'CanFreeze': 'yes', 'StopWhenUnneeded': 'no', 'RefuseManualStart': 'no', 'RefuseManualStop': 'no', 'AllowIsolate': 'no', 'DefaultDependencies': 'no', 'SurviveFinalKillSignal': 'no', 'OnSuccessJobMode': 'fail', 'OnFailureJobMode': 'replace', 'IgnoreOnIsolate': 'yes', 'NeedDaemonReload': 'no', 'JobTimeoutUSec': 'infinity', 'JobRunningTimeoutUSec': 'infinity', 'JobTimeoutAction': 'none', 'ConditionResult': 'yes', 'AssertResult': 'yes', 'ConditionTimestamp': 'Tue 2026-09-29 14:06:03 +03', 'ConditionTimestampMonotonic': '6485545', 'AssertTimestamp': 'Tue 2026-09-29 14:06:03 +03', 'AssertTimestampMonotonic': '6485546', 'Transient': 'no', 'Perpetual': 'no', 'StartLimitIntervalUSec': '10s', 'StartLimitBurst': '5', 'StartLimitAction': 'none', 'FailureAction': 'none', 'SuccessAction': 'none', 'InvocationID': 'b19db3e01b034ca4b28229f7aa607021', 'CollectMode': 'inactive'}, 'invocation': {'module_args': {'name': 'systemd-journald', 'daemon_reload': False, 'daemon_reexec': False, 'scope': 'system', 'no_block': False, 'state': None, 'enabled': None, 'force': None, 'masked': None}}, 'failed': False, 'failed_when_result': False, 'item': 'systemd-journald', 'ansible_loop_var': 'item'}) => {
+    "msg": "systemd-journald: active"
+}
+
+TASK [Check authentication log] ************************************************
+ok: [localhost]
+
+TASK [Check system log] ********************************************************
+ok: [localhost]
+
+TASK [Evaluate logging configuration] ******************************************
+ok: [localhost] => {
+    "msg": " LOGGING: PASS - Authentication and system logs are available "
+}
+
+TASK [Check IPv4 forwarding] ***************************************************
+ok: [localhost]
+
+TASK [Show IPv4 forwarding] ****************************************************
+ok: [localhost] => {
+    "msg": "IPv4 FORWARDING: 0"
+}
+
+TASK [Evaluate IPv4 forwarding] ************************************************
+ok: [localhost] => {
+    "msg": " IPV4 FORWARDING: PASS - IPv4 forwarding is disabled "
+}
+
+TASK [Check IPv6 forwarding] ***************************************************
+ok: [localhost]
+
+TASK [Show IPv6 forwarding] ****************************************************
+ok: [localhost] => {
+    "msg": "IPv6 FORWARDING: 0"
+}
+
+TASK [Evaluate IPv6 forwarding] ************************************************
+ok: [localhost] => {
+    "msg": " IPV6 FORWARDING: PASS - IPv6 forwarding is disabled "
+}
+
+TASK [Check reverse path filtering] ********************************************
+ok: [localhost]
+
+TASK [Show reverse path filtering] *********************************************
+ok: [localhost] => {
+    "msg": "REVERSE PATH FILTER: 2"
+}
+
+TASK [Evaluate reverse path filtering] *****************************************
+ok: [localhost] => {
+    "msg": " RP_FILTER: PASS - Reverse path filtering is enabled "
+}
+
+TASK [Check IPv4 ICMP redirects] ***********************************************
+ok: [localhost]
+
+TASK [Evaluate IPv4 ICMP redirects] ********************************************
+ok: [localhost] => {
+    "msg": " IPV4 ICMP REDIRECTS: PASS - ICMP redirects are disabled "
+}
+
+TASK [Check IPv6 ICMP redirects] ***********************************************
+ok: [localhost]
+
+TASK [Evaluate IPv6 ICMP redirects] ********************************************
+ok: [localhost] => {
+    "msg": " IPV6 ICMP REDIRECTS: PASS - ICMP redirects are disabled "
+}
+
+TASK [Check network interfaces] ************************************************
+ok: [localhost]
+
+TASK [Show network interfaces] *************************************************
+ok: [localhost] => {
+    "network_interfaces.stdout_lines": [
+        "lo               UNKNOWN        127.0.0.1/8 ::1/128 ",
+        "enp0s3           UP             10.0.2.15/24 fd17:625c:f037:2:e210:a7a8:7ce0:1879/64 fd17:625c:f037:2:a00:27ff:fe61:82f1/64 fe80::a00:27ff:fe61:82f1/64 "
+    ]
+}
+
+TASK [Check default route] *****************************************************
+ok: [localhost]
+
+TASK [Show default route] ******************************************************
+ok: [localhost] => {
+    "default_route.stdout_lines": [
+        "default via 10.0.2.2 dev enp0s3 proto dhcp src 10.0.2.15 metric 100 "
+    ]
+}
+
+TASK [Check /etc/passwd permissions] *******************************************
+ok: [localhost]
+
+TASK [Check /etc/shadow permissions] *******************************************
+ok: [localhost]
+
+TASK [Check /etc/group permissions] ********************************************
+ok: [localhost]
+
+TASK [Show critical file permissions] ******************************************
+ok: [localhost] => {
+    "msg": [
+        "/etc/passwd: 0644",
+        "/etc/shadow: 0640",
+        "/etc/group: 0644"
+    ]
+}
+
+TASK [Evaluate /etc/passwd permissions] ****************************************
+ok: [localhost] => {
+    "msg": " PASSWD PERMISSIONS: PASS - /etc/passwd permissions are acceptable "
+}
+
+TASK [Evaluate /etc/shadow permissions] ****************************************
+ok: [localhost] => {
+    "msg": " SHADOW PERMISSIONS: PASS - /etc/shadow permissions are restricted "
+}
+
+TASK [Evaluate /etc/group permissions] *****************************************
+ok: [localhost] => {
+    "msg": " GROUP PERMISSIONS: PASS - /etc/group permissions are acceptable "
+}
+
+TASK [Check /etc/gshadow permissions] ******************************************
+ok: [localhost]
+
+TASK [Show /etc/gshadow permissions] *******************************************
+ok: [localhost] => {
+    "msg": "/etc/gshadow: 0640"
+}
+
+TASK [Evaluate /etc/gshadow permissions] ***************************************
+ok: [localhost] => {
+    "msg": " GSHADOW PERMISSIONS: PASS - /etc/gshadow permissions are restricted "
+}
+
+TASK [Check root account status] ***********************************************
+ok: [localhost]
+
+TASK [Show root account status] ************************************************
+ok: [localhost] => {
+    "msg": "ROOT ACCOUNT: root L 2026-09-14 0 99999 7 -1"
+}
+
+TASK [Evaluate root account status] ********************************************
+ok: [localhost] => {
+    "msg": " ROOT ACCOUNT: PASS - Root account is locked "
+}
+
+TASK [Check users with empty passwords] ****************************************
+ok: [localhost]
+
+TASK [Show users with empty passwords] *****************************************
+ok: [localhost] => {
+    "msg": " EMPTY PASSWORDS: PASS - No users with empty passwords detected "
+}
+
+TASK [Check password maximum age] **********************************************
+ok: [localhost]
+
+TASK [Check password minimum age] **********************************************
+ok: [localhost]
+
+TASK [Check password warning age] **********************************************
+ok: [localhost]
+
+TASK [Check password quality module] *******************************************
+ok: [localhost]
+
+TASK [Show password policy] ****************************************************
+ok: [localhost] => {
+    "msg": [
+        "PASSWORD MAX DAYS: 99999",
+        "PASSWORD MIN DAYS: 0",
+        "PASSWORD WARN DAYS: 7",
+        "PASSWORD QUALITY: password\trequisite\t\t\tpam_pwquality.so retry=3"
+    ]
+}
+
+TASK [Evaluate password maximum age] *******************************************
+ok: [localhost] => {
+    "msg": " PASSWORD MAX AGE: WARNING - Maximum password age is 99999 days "
+}
+
+TASK [Evaluate password quality] ***********************************************
+ok: [localhost] => {
+    "msg": " PASSWORD QUALITY: PASS - pam_pwquality is enabled "
+}
+
+TASK [Check /tmp permissions] **************************************************
+ok: [localhost]
+
+TASK [Check /var/tmp permissions] **********************************************
+ok: [localhost]
+
+TASK [Show temporary directory permissions] ************************************
+ok: [localhost] => {
+    "msg": [
+        "/tmp: 1777",
+        "/var/tmp: 1777"
+    ]
+}
+
+TASK [Evaluate /tmp permissions] ***********************************************
+ok: [localhost] => {
+    "msg": " TMP PERMISSIONS: PASS - /tmp has expected permissions "
+}
+
+TASK [Evaluate /var/tmp permissions] *******************************************
+ok: [localhost] => {
+    "msg": " VAR TMP PERMISSIONS: PASS - /var/tmp has expected permissions "
+}
+
+TASK [Check world-writable files] **********************************************
+ok: [localhost]
+
+TASK [Evaluate world-writable files] *******************************************
+ok: [localhost] => {
+    "msg": " WORLD WRITABLE FILES: PASS - No world-writable files detected in /etc or /var "
+}
+
+TASK [Check critical directory permissions] ************************************
+ok: [localhost] => (item=/etc)
+ok: [localhost] => (item=/var)
+ok: [localhost] => (item=/usr)
+ok: [localhost] => (item=/home)
+
+TASK [Show critical directory permissions] *************************************
+ok: [localhost] => (item={'changed': False, 'stat': {'exists': True, 'path': '/etc', 'mode': '0755', 'isdir': True, 'ischr': False, 'isblk': False, 'isreg': False, 'isfifo': False, 'islnk': False, 'issock': False, 'uid': 0, 'gid': 0, 'size': 12288, 'inode': 1310721, 'dev': 2050, 'nlink': 140, 'atime': 1790603602.9996035, 'mtime': 1790425941.9386113, 'ctime': 1790425941.9386113, 'wusr': True, 'rusr': True, 'xusr': True, 'wgrp': False, 'rgrp': True, 'xgrp': True, 'woth': False, 'roth': True, 'xoth': True, 'isuid': False, 'isgid': False, 'blocks': 24, 'block_size': 4096, 'device_type': 0, 'readable': True, 'writeable': True, 'executable': True, 'pw_name': 'root', 'gr_name': 'root', 'mimetype': 'inode/directory', 'charset': 'binary', 'version': '4036209523', 'attributes': ['indexed', 'extents'], 'attr_flags': 'Ie'}, 'invocation': {'module_args': {'path': '/etc', 'follow': False, 'get_checksum': True, 'get_mime': True, 'get_attributes': True, 'checksum_algorithm': 'sha1'}}, 'failed': False, 'item': '/etc', 'ansible_loop_var': 'item'}) => {
+    "msg": "/etc: 0755"
+}
+ok: [localhost] => (item={'changed': False, 'stat': {'exists': True, 'path': '/var', 'mode': '0755', 'isdir': True, 'ischr': False, 'isblk': False, 'isreg': False, 'isfifo': False, 'islnk': False, 'issock': False, 'uid': 0, 'gid': 0, 'size': 4096, 'inode': 262146, 'dev': 2050, 'nlink': 14, 'atime': 1790609946.5145044, 'mtime': 1790371562.3423414, 'ctime': 1790371562.3423414, 'wusr': True, 'rusr': True, 'xusr': True, 'wgrp': False, 'rgrp': True, 'xgrp': True, 'woth': False, 'roth': True, 'xoth': True, 'isuid': False, 'isgid': False, 'blocks': 8, 'block_size': 4096, 'device_type': 0, 'readable': True, 'writeable': True, 'executable': True, 'pw_name': 'root', 'gr_name': 'root', 'mimetype': 'inode/directory', 'charset': 'binary', 'version': '174391962', 'attributes': ['extents'], 'attr_flags': 'e'}, 'invocation': {'module_args': {'path': '/var', 'follow': False, 'get_checksum': True, 'get_mime': True, 'get_attributes': True, 'checksum_algorithm': 'sha1'}}, 'failed': False, 'item': '/var', 'ansible_loop_var': 'item'}) => {
+    "msg": "/var: 0755"
+}
+ok: [localhost] => (item={'changed': False, 'stat': {'exists': True, 'path': '/usr', 'mode': '0755', 'isdir': True, 'ischr': False, 'isblk': False, 'isreg': False, 'isfifo': False, 'islnk': False, 'issock': False, 'uid': 0, 'gid': 0, 'size': 4096, 'inode': 1441794, 'dev': 2050, 'nlink': 12, 'atime': 1790685677.8417807, 'mtime': 1789412587.0, 'ctime': 1790367663.9655347, 'wusr': True, 'rusr': True, 'xusr': True, 'wgrp': False, 'rgrp': True, 'xgrp': True, 'woth': False, 'roth': True, 'xoth': True, 'isuid': False, 'isgid': False, 'blocks': 8, 'block_size': 4096, 'device_type': 0, 'readable': True, 'writeable': True, 'executable': True, 'pw_name': 'root', 'gr_name': 'root', 'mimetype': 'inode/directory', 'charset': 'binary', 'version': '4087582396', 'attributes': ['extents'], 'attr_flags': 'e'}, 'invocation': {'module_args': {'path': '/usr', 'follow': False, 'get_checksum': True, 'get_mime': True, 'get_attributes': True, 'checksum_algorithm': 'sha1'}}, 'failed': False, 'item': '/usr', 'ansible_loop_var': 'item'}) => {
+    "msg": "/usr: 0755"
+}
+ok: [localhost] => (item={'changed': False, 'stat': {'exists': True, 'path': '/home', 'mode': '0755', 'isdir': True, 'ischr': False, 'isblk': False, 'isreg': False, 'isfifo': False, 'islnk': False, 'issock': False, 'uid': 0, 'gid': 0, 'size': 4096, 'inode': 917505, 'dev': 2050, 'nlink': 3, 'atime': 1790371583.9260008, 'mtime': 1790368809.6264424, 'ctime': 1790368809.6264424, 'wusr': True, 'rusr': True, 'xusr': True, 'wgrp': False, 'rgrp': True, 'xgrp': True, 'woth': False, 'roth': True, 'xoth': True, 'isuid': False, 'isgid': False, 'blocks': 8, 'block_size': 4096, 'device_type': 0, 'readable': True, 'writeable': True, 'executable': True, 'pw_name': 'root', 'gr_name': 'root', 'mimetype': 'inode/directory', 'charset': 'binary', 'version': '3598864982', 'attributes': ['extents'], 'attr_flags': 'e'}, 'invocation': {'module_args': {'path': '/home', 'follow': False, 'get_checksum': True, 'get_mime': True, 'get_attributes': True, 'checksum_algorithm': 'sha1'}}, 'failed': False, 'item': '/home', 'ansible_loop_var': 'item'}) => {
+    "msg": "/home: 0755"
+}
+
+TASK [Check SUID and SGID files] ***********************************************
+ok: [localhost]
+
+TASK [Show SUID and SGID files] ************************************************
+ok: [localhost] => {
+    "msg": [
+        "/usr/lib/openssh/ssh-keysign",
+        "/usr/lib/xorg/Xorg.wrap",
+        "/usr/lib/dbus-1.0/dbus-daemon-launch-helper",
+        "/usr/lib/polkit-1/polkit-agent-helper-1",
+        "/usr/bin/chsh",
+        "/usr/bin/fusermount3",
+        "/usr/bin/crontab",
+        "/usr/bin/ssh-agent",
+        "/usr/bin/chage",
+        "/usr/bin/umount",
+        "/usr/bin/newgrp",
+        "/usr/bin/mount",
+        "/usr/bin/gpasswd",
+        "/usr/bin/sudo",
+        "/usr/bin/pkexec",
+        "/usr/bin/expiry",
+        "/usr/bin/chfn",
+        "/usr/bin/su",
+        "/usr/bin/passwd",
+        "/usr/sbin/pppd",
+        "/usr/sbin/unix_chkpwd",
+        "/usr/sbin/pam_extrausers_chkpwd",
+        "/usr/libexec/camel-lock-helper-1.2"
+    ]
+}
+
+TASK [Evaluate SUID and SGID files] ********************************************
+ok: [localhost] => {
+    "msg": " SUID SGID: INFO - SUID/SGID files detected and should be reviewed "
+}
+
+TASK [Check /etc/crontab permissions] ******************************************
+ok: [localhost]
+
+TASK [Evaluate /etc/crontab permissions] ***************************************
+ok: [localhost] => {
+    "msg": " CRONTAB: PASS - /etc/crontab is owned by root and permissions are restricted "
+}
+
+TASK [Check cron directories] **************************************************
+ok: [localhost]
+
+TASK [Show cron directories] ***************************************************
+ok: [localhost] => {
+    "cron_directories.stdout_lines": [
+        "drwxr-xr-x 2 root root 4096 Eyl 14 22:06 /etc/cron.d",
+        "drwxr-xr-x 2 root root 4096 Eyl 14 22:06 /etc/cron.daily",
+        "drwxr-xr-x 2 root root 4096 Eyl 14 22:03 /etc/cron.hourly",
+        "drwxr-xr-x 2 root root 4096 Eyl 14 22:06 /etc/cron.monthly",
+        "drwxr-xr-x 2 root root 4096 Eyl 14 22:06 /etc/cron.weekly"
+    ]
+}
+
+PLAY RECAP *********************************************************************
+localhost                  : ok=96   changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+

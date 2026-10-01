@@ -1,0 +1,43 @@
+---
+# Firewall
+ufw_enabled: true
+ufw_default_incoming_policy: deny
+ufw_default_outgoing_policy: allow
+
+# SSH hardening
+ssh_hardening_enabled: true
+ssh_port: 22
+ssh_permit_root_login: "no"
+ssh_password_authentication: "yes"
+ssh_permit_empty_passwords: "no"
+ssh_permit_user_environment: "no"
+ssh_use_pam: "yes"
+ssh_max_auth_tries: 4
+ssh_login_grace_time: 60
+ssh_x11_forwarding: "no"
+ssh_client_alive_interval: 300
+ssh_client_alive_count_max: 2
+
+# Password policy defaults
+password_max_days: 365
+password_min_days: 1
+password_warn_age: 7
+
+# Kernel/network hardening
+disable_ipv4_forwarding: true
+disable_ipv6_forwarding: true
+disable_icmp_redirects: true
+
+# Services that can increase the attack surface
+disable_unnecessary_services:
+  - avahi-daemon
+  - cups
+  - gnome-remote-desktop
+
+# Logging and auditing
+auditd_enabled: true
+rsyslog_enabled: true
+# Additional hardening
+sudo_use_pty: true
+cron_enabled: true
+apparmor_enabled: true

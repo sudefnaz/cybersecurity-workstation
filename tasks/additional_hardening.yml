@@ -1,0 +1,22 @@
+---
+- name: Ensure sudo uses pseudo-terminal
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    regexp: '^Defaults\s+use_pty'
+    line: 'Defaults use_pty'
+    validate: '/usr/sbin/visudo -cf %s'
+  when: sudo_use_pty
+
+- name: Ensure cron service is enabled
+  ansible.builtin.service:
+    name: cron
+    enabled: true
+    state: started
+  when: cron_enabled
+
+- name: Ensure AppArmor service is enabled
+  ansible.builtin.service:
+    name: apparmor
+    enabled: true
+    state: started
+  when: apparmor_enabled

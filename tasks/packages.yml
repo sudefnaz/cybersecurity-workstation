@@ -1,0 +1,18 @@
+---
+- name: Update APT package cache
+  ansible.builtin.apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+
+- name: Install security baseline packages
+  ansible.builtin.apt:
+    name:
+      - ufw
+      - openssh-server
+      - auditd
+      - rsyslog
+      - libpam-pwquality
+    state: present
+    update_cache: false
+

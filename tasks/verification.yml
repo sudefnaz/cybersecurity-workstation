@@ -1,0 +1,77 @@
+---
+- name: Verify UFW status
+  ansible.builtin.command: ufw status verbose
+  register: ufw_status
+  changed_when: false
+
+- name: Show UFW status
+  ansible.builtin.debug:
+    var: ufw_status.stdout_lines
+
+- name: Verify SSH configuration syntax
+  ansible.builtin.command: sshd -t
+  changed_when: false
+
+- name: Verify SSH effective security settings
+  ansible.builtin.command: sshd -T
+  register: ssh_effective_config
+  changed_when: false
+
+- name: Verify SSH service
+  ansible.builtin.service_facts:
+
+- name: Verify IPv4 forwarding
+  ansible.builtin.command: sysctl -n net.ipv4.ip_forward
+  register: ipv4_forwarding
+  changed_when: false
+
+- name: Verify IPv6 forwarding
+  ansible.builtin.command: sysctl -n net.ipv6.conf.all.forwarding
+  register: ipv6_forwarding
+  changed_when: false
+
+- name: Verify audit service
+  ansible.builtin.command: systemctl is-active auditd
+  register: auditd_status
+  changed_when: false
+  failed_when: false
+
+- name: Verify kernel hardening settings
+  ansible.builtin.command: sysctl -n {{ item }}
+  loop:
+    - fs.protected_hardlinks
+    - fs.protected_symlinks
+    - kernel.yama.ptrace_scope
+    - fs.suid_dumpable
+    - kernel.dmesg_restrict
+  register: kernel_hardening
+  changed_when: false
+
+- name: Show security verification summary
+  ansible.builtin.debug:
+    msg:
+      - "UFW: {{ ufw_status.stdout_lines }}"
+      - "IPv4 forwarding: {{ ipv4_forwarding.stdout }}"
+      - "IPv6 forwarding: {{ ipv6_forwarding.stdout }}"
+      - "Auditd: {{ auditd_status.stdout }}"
+      - "SSH security settings: {{ ssh_effective_config.stdout_lines | select('match', '^(permitrootlogin|permitemptypasswords|permituserenvironment|usepam|maxauthtries|logingracetime|clientaliveinterval|clientalivecountmax)') | list }}"
+      - "Kernel hardening values: {{ kernel_hardening.results | map(attribute='stdout') | list }}"
+- name: Verify unnecessary services are stopped
+  ansible.builtin.command: systemctl is-active {{ item }}
+  loop: "{{ disable_unnecessary_services }}"
+  register: unnecessary_services_status
+  changed_when: false
+  failed_when: false
+
+- name: Verify unnecessary services are disabled
+  ansible.builtin.command: systemctl is-enabled {{ item }}
+  loop: "{{ disable_unnecessary_services }}"
+  register: unnecessary_services_enabled
+  changed_when: false
+  failed_when: false
+
+- name: Show unnecessary services verification
+  ansible.builtin.debug:
+    msg:
+      - "Service active states: {{ unnecessary_services_status.results | map(attribute='stdout') | list }}"
+      - "Service enabled states: {{ unnecessary_services_enabled.results | map(attribute='stdout') | list }}"
